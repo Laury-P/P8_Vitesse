@@ -13,4 +13,5 @@ data class Candidate(
     var email: String,
     var dateOfBirth: LocalDate,
     var expectedSalary: Double? = null,
+
 )
