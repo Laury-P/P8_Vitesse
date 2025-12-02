@@ -1,0 +1,45 @@
+package com.openclassroom.p8_vitesse.data.repository
+
+import com.openclassroom.p8_vitesse.data.dao.CandidateDao
+import com.openclassroom.p8_vitesse.data.mapper.toDomain
+import com.openclassroom.p8_vitesse.data.mapper.toDto
+import com.openclassroom.p8_vitesse.domain.Candidate
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+
+class CandidateRepository @Inject constructor(private val candidateDao: CandidateDao) {
+
+    suspend fun upsertCandidate(candidate: Candidate) {
+        candidateDao.upsertCandidate(candidate.toDto())
+    }
+
+
+    suspend fun deleteCandidate(candidate: Candidate) {
+        candidateDao.deleteCandidate(candidate.toDto())
+    }
+
+    fun getAllCandidates(): Flow<List<Candidate>> {
+        return candidateDao.getAllCandidates()
+            .map { list ->
+                list.map {
+                    it.toDomain()
+                }
+            }
+    }
+
+    suspend fun getCandidateById(id: Long): Candidate {
+        return candidateDao.getCandidateById(id).toDomain()
+    }
+
+    fun getFavoriteCandidates(): Flow<List<Candidate>> {
+        return candidateDao.getFavoriteCandidates()
+            .map { list ->
+                list.map {
+                    it.toDomain()
+                }
+            }
+    }
+
+
+}
