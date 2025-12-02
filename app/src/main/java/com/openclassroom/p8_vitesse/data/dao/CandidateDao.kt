@@ -17,12 +17,12 @@ interface CandidateDao {
     suspend fun deleteCandidate(candidate: CandidateDto)
 
     @Query("SELECT * FROM candidates ORDER BY last_name")
-    suspend fun getAllCandidates(): Flow<List<CandidateDto>>
+    fun getAllCandidates(): Flow<List<CandidateDto>>
 
     @Query("SELECT * FROM candidates WHERE id = :id")
     suspend fun getCandidateById(id: Long): CandidateDto
 
     @Query("SELECT * FROM candidates WHERE is_favorite = :isFavorite ORDER BY last_name")
-    suspend fun getFavoriteCandidates(isFavorite: Boolean = true): Flow<List<CandidateDto>>
+    fun getFavoriteCandidates(isFavorite: Boolean = true): Flow<List<CandidateDto>>
 
 }
