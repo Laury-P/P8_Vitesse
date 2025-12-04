@@ -7,6 +7,7 @@ import com.openclassroom.p8_vitesse.data.VitesseDatabase
 import com.openclassroom.p8_vitesse.data.dao.CandidateDao
 import com.openclassroom.p8_vitesse.data.mapper.toDto
 import com.openclassroom.p8_vitesse.domain.Candidate
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -51,7 +52,7 @@ class CandidateDaoTest {
         candidateDao.upsertCandidate(candidate.toDto())
 
 
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         val expected = candidate.toDto().copy(id = 1)
 
         assertEquals(expected,insertedCandidate[0])
@@ -74,7 +75,7 @@ class CandidateDaoTest {
         candidateDao.upsertCandidate(candidate.toDto())
 
 
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         val expected = candidate.toDto().copy(id = 1)
 
         assertEquals(expected,insertedCandidate[0])
@@ -99,7 +100,7 @@ class CandidateDaoTest {
         )
         candidateDao.upsertCandidate(updatedCandidate.toDto())
 
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         val expected = updatedCandidate.toDto()
 
         assertEquals(expected,insertedCandidate[0])
@@ -117,11 +118,11 @@ class CandidateDaoTest {
             dateOfBirth = LocalDate.of(1990, 1, 1)
         )
         candidateDao.upsertCandidate(candidate.toDto())
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         assert(1 == insertedCandidate.size)
 
         candidateDao.deleteCandidate(candidate.toDto())
-        val deletedCandidate = candidateDao.getAllCandidates()
+        val deletedCandidate = candidateDao.getAllCandidates().first()
         assert(deletedCandidate.isEmpty())
     }
 
@@ -146,7 +147,7 @@ class CandidateDaoTest {
         candidateDao.upsertCandidate(candidate1.toDto())
         candidateDao.upsertCandidate(candidate2.toDto())
 
-        val insertedCandidates = candidateDao.getAllCandidates()
+        val insertedCandidates = candidateDao.getAllCandidates().first()
         assert(insertedCandidates.size == 2)
         assert("Smith" == insertedCandidates[1].lastName)
         assert("Doe" == insertedCandidates[0].lastName)
@@ -201,8 +202,8 @@ class CandidateDaoTest {
         candidateDao.upsertCandidate(candidate1.toDto())
         candidateDao.upsertCandidate(candidate2.toDto())
 
-        val favoriteCandidate = candidateDao.getFavoriteCandidates()
-        assert("Smith" == favoriteCandidate.lastName)
+        val favoriteCandidate = candidateDao.getFavoriteCandidates().first()
+        assert("Smith" == favoriteCandidate[0].lastName)
     }
 
 }
