@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vitesse</string>
+
+    <!-- Home Screen -->
+    <string name="search_candidate">Rechercher</string>
+    <string name="all_tab">Tous</string>
+    <string name="favorite_tab">Favoris</string>
+    <string name="no_candidate">Aucun candidat</string>
+
+</resources>

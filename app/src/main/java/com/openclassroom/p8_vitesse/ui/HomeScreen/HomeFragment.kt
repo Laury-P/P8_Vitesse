@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 
@@ -41,7 +42,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupFab()
-        loading()
         tabsSelectedDisplay()
         observeAllCandidate()
     }
@@ -61,16 +61,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun observeAllCandidate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.allCandidatesFlow.collect {
-                candidateAdapter.submitList(it)
+            combine(viewModel.allCandidatesFlow, viewModel.isLoading) {list, isLoading ->
+                list to isLoading
+            }.collect { (list, isLoading) ->
+                binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+                binding.noCandidate.visibility = if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
+                candidateAdapter.submitList(list)
             }
         }
     }
 
     private fun observeFavoriteCandidate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.favoriteCandidatesFlow.collect {
-                candidateAdapter.submitList(it)
+            combine(viewModel.favoriteCandidatesFlow, viewModel.isLoading){list, isLoading ->
+                list to isLoading
+            }.collect { (list, isLoading) ->
+                binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+                binding.noCandidate.visibility = if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
+                candidateAdapter.submitList(list)
             }
         }
     }
@@ -89,13 +97,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
     }
 
-    private fun loading(){
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isLoading.collect {
-                binding.loadingBar.visibility = if (it) View.VISIBLE else View.GONE
-            }
-        }
-    }
+
 
 
 
