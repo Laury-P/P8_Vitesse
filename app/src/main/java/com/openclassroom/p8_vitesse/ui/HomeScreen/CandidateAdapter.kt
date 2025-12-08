@@ -13,22 +13,28 @@ import com.openclassroom.p8_vitesse.ui.HomeScreen.CandidateAdapter.CandidateView
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.domain.Candidate
 
-class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder> (CandidateDiffUtil) {
+class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(CandidateDiffUtil) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CandidateViewHolder{
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.candidate_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CandidateViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.candidate_item, parent, false)
         return CandidateViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CandidateViewHolder, position: Int) {
         val candidate = getItem(position)
-        Glide.with(holder.itemView.context).load(candidate.photo).into(holder.picture)// Transformation de l'URI en chemin compréhensible par le ImageView
-        holder.name.text = String.format(candidate.firstName + candidate.lastName)
+        Glide.with(holder.itemView.context)// Transformation de l'URI en chemin compréhensible par le ImageView
+            .load(candidate.photo)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_placeholder)
+            .centerCrop()
+            .into(holder.picture)
+        holder.name.text = String.format(candidate.firstName + " " + candidate.lastName)
         holder.note.text = candidate.note
 
     }
 
-    inner class CandidateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class CandidateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var picture: ImageView
         var name: TextView
         var note: TextView
@@ -40,8 +46,8 @@ class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder> (Candidat
         }
     }
 
-    companion object{
-        private val CandidateDiffUtil : DiffUtil.ItemCallback<Candidate> =
+    companion object {
+        private val CandidateDiffUtil: DiffUtil.ItemCallback<Candidate> =
             object : DiffUtil.ItemCallback<Candidate>() {
                 override fun areItemsTheSame(oldItem: Candidate, newItem: Candidate): Boolean {
                     return oldItem == newItem

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
@@ -49,6 +50,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupRecyclerView() {
         candidateAdapter = CandidateAdapter()
         binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = candidateAdapter
         }
     }
@@ -61,11 +63,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun observeAllCandidate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            combine(viewModel.allCandidatesFlow, viewModel.isLoading) {list, isLoading ->
+            combine(viewModel.allCandidatesFlow, viewModel.isLoading) { list, isLoading ->
                 list to isLoading
             }.collect { (list, isLoading) ->
                 binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-                binding.noCandidate.visibility = if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
+                binding.noCandidate.visibility =
+                    if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
                 candidateAdapter.submitList(list)
             }
         }
@@ -73,11 +76,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun observeFavoriteCandidate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            combine(viewModel.favoriteCandidatesFlow, viewModel.isLoading){list, isLoading ->
+            combine(viewModel.favoriteCandidatesFlow, viewModel.isLoading) { list, isLoading ->
                 list to isLoading
             }.collect { (list, isLoading) ->
                 binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-                binding.noCandidate.visibility = if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
+                binding.noCandidate.visibility =
+                    if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
                 candidateAdapter.submitList(list)
             }
         }
@@ -91,14 +95,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     1 -> observeFavoriteCandidate()
                 }
             }
+
             override fun onTabReselected(tab: TabLayout.Tab?) {}
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
         }
         )
     }
-
-
-
 
 
 }
