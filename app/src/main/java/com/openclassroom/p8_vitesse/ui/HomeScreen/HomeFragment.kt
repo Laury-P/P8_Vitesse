@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.openclassroom.p8_vitesse.R
@@ -62,6 +63,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setupFab() {
         binding.fab.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_to_addFragment)
             //TO DO: Navigation vers l'ajout d'un candidat (avec un alert dialogue?)
         }
     }

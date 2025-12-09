@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.openclassroom.p8_vitesse.R
-import com.openclassroom.p8_vitesse.ui.HomeScreen.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +22,5 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, HomeFragment())
-            .commit()
     }
 }
