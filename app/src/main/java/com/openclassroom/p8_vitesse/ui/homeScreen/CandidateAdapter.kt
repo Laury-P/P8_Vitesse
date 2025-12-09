@@ -1,15 +1,17 @@
-package com.openclassroom.p8_vitesse.ui.HomeScreen
+package com.openclassroom.p8_vitesse.ui.homeScreen
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassroom.p8_vitesse.ui.HomeScreen.CandidateAdapter.CandidateViewHolder
+import com.openclassroom.p8_vitesse.ui.homeScreen.CandidateAdapter.CandidateViewHolder
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.domain.Candidate
 
@@ -31,6 +33,11 @@ class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(Candidate
             .into(holder.picture)
         holder.name.text = String.format(candidate.firstName + " " + candidate.lastName)
         holder.note.text = candidate.note
+        holder.itemView.setOnClickListener {
+            val id = candidate.id ?: return@setOnClickListener
+            val bundle = Bundle().apply { putLong("candidateId", id) }
+            Navigation.findNavController(it).navigate(R.id.action_to_detailFragment,bundle)
+        }
 
     }
 

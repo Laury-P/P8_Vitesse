@@ -6,7 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingVertical="12dp"
     android:paddingStart="16dp"
-    android:paddingEnd="24dp">
+    android:paddingEnd="24dp"
+    android:focusable="true"
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/candidate_picture"

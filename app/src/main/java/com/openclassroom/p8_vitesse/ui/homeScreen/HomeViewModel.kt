@@ -1,4 +1,4 @@
-package com.openclassroom.p8_vitesse.ui.HomeScreen
+package com.openclassroom.p8_vitesse.ui.homeScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

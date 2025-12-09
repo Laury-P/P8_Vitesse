@@ -1,12 +1,10 @@
-package com.openclassroom.p8_vitesse.ui.HomeScreen
+package com.openclassroom.p8_vitesse.ui.homeScreen
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -64,7 +62,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupFab() {
         binding.fab.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_to_addFragment)
-            //TO DO: Navigation vers l'ajout d'un candidat (avec un alert dialogue?)
         }
     }
 
