@@ -12,6 +12,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:hint="@string/search_candidate"
+        android:focusable="true"
+        android:clickable="true"
+        />
+
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:queryHint="@string/search_candidate"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="@id/search_bar"
+        app:layout_constraintTop_toTopOf="@id/search_bar"
+        android:clickable="true"
+        android:focusable="true"
         />
 
     <com.google.android.material.tabs.TabLayout

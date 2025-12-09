@@ -1,10 +1,13 @@
 package com.openclassroom.p8_vitesse.ui.HomeScreen
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +33,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var candidateAdapter: CandidateAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,8 +47,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupFab()
+        setupSearchWidget()
         tabsSelectedDisplay()
-        observeAllCandidate()
+        observeCandidate()
     }
 
     private fun setupRecyclerView() {
@@ -61,9 +66,37 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun observeAllCandidate() {
+    private fun setupSearchWidget() {
+        val searchView = binding.searchView
+        val searchBar = binding.searchBar
+        searchBar.setOnClickListener {
+            searchView.visibility = View.VISIBLE
+            searchBar.visibility = View.INVISIBLE
+            searchView.isIconified = false
+            searchView.requestFocus()
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                viewModel.setFilter(query ?: "")
+                return true
+            }
+        })
+
+        searchView.setOnCloseListener(){
+            searchView.visibility = View.INVISIBLE
+            searchBar.visibility = View.VISIBLE
+            false
+        }
+    }
+
+    private fun observeCandidate(){
         viewLifecycleOwner.lifecycleScope.launch {
-            combine(viewModel.allCandidatesFlow, viewModel.isLoading) { list, isLoading ->
+            combine(viewModel.candidateFlow, viewModel.isLoading) { list, isLoading ->
                 list to isLoading
             }.collect { (list, isLoading) ->
                 binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -74,25 +107,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun observeFavoriteCandidate() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            combine(viewModel.favoriteCandidatesFlow, viewModel.isLoading) { list, isLoading ->
-                list to isLoading
-            }.collect { (list, isLoading) ->
-                binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-                binding.noCandidate.visibility =
-                    if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
-                candidateAdapter.submitList(list)
-            }
-        }
-    }
 
     private fun tabsSelectedDisplay() {
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
-                    0 -> observeAllCandidate()
-                    1 -> observeFavoriteCandidate()
+                    0 -> viewModel.setFavoriteTabSelected(false)
+                    1 -> viewModel.setFavoriteTabSelected(true)
                 }
             }
 
