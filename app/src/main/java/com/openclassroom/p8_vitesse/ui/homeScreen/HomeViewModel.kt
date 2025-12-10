@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassroom.p8_vitesse.data.repository.CandidateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,12 +39,13 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
         }
     }.onStart {
         _isLoading.value = true
+        //delay(1000) //pour simuler un chargement
     }
         .onEach { _isLoading.value = false }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(),
-            emptyList()
+        .shareIn(
+            scope= viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            replay = 1
         )
 
     fun setFilter(newQuery: String) {
