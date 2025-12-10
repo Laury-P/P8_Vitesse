@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">P8_Vitesse</string>
+    <string name="app_name">Vitesse</string>
+
+    <!-- Home Screen -->
+    <string name="search_candidate">Search</string>
+    <string name="all_tab">All</string>
+    <string name="favorite_tab">Favorites</string>
+    <string name="no_candidate">No candidate</string>
 </resources>

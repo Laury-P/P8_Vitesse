@@ -68,6 +68,10 @@ dependencies {
     // Desugaring
     coreLibraryDesugaring(libs.desugar)
 
+    // Glide
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+    
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.openclassroom.p8_vitesse.ui.homeScreen.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_to_addFragment"
+            app:destination="@id/addFragment"/>
+        <action
+            android:id="@+id/action_to_detailFragment"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="candidateId"
+                app:argType="long"
+                />
+        </action>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.openclassroom.p8_vitesse.ui.addScreen.AddFragment"
+        android:label="Add"/>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.openclassroom.p8_vitesse.ui.detailScreen.DetailFragment"
+        android:label="detail">
+        <argument
+            android:name="candidateId"
+            app:argType="long"
+            />
+    </fragment>
+
+
+</navigation>
