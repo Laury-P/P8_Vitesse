@@ -23,6 +23,9 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
 
     private val _isFavoriteSelected = MutableStateFlow(false)
 
+    /**
+     * Flow transmettant la liste de candidat en fonction de l'onglet selectionner et du filtre appliqué
+     */
     val candidateFlow = combine(
         repository.getAllCandidates(),
         repository.getFavoriteCandidates(),
@@ -39,19 +42,25 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
         }
     }.onStart {
         _isLoading.value = true
-        //delay(1000) //pour simuler un chargement
+        //delay(1000) //pour simuler un chargement et l'observer dans l'UI
     }
         .onEach { _isLoading.value = false }
         .shareIn(
-            scope= viewModelScope,
+            scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
             replay = 1
         )
 
+    /**
+     * Mise à jour du filtre de recherche
+     */
     fun setFilter(newQuery: String) {
         _filter.value = newQuery
     }
 
+    /**
+     * Mise à jour du statut de l'onglet favoris
+     */
     fun setFavoriteTabSelected(tab: Boolean) {
         _isFavoriteSelected.value = tab
     }

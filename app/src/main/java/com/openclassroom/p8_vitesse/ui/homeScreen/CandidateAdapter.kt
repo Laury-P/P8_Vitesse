@@ -15,6 +15,9 @@ import com.openclassroom.p8_vitesse.ui.homeScreen.CandidateAdapter.CandidateView
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.domain.Candidate
 
+/**
+ * Adapteur de la liste des candidats
+ */
 class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(CandidateDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CandidateViewHolder {
@@ -25,7 +28,7 @@ class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(Candidate
 
     override fun onBindViewHolder(holder: CandidateViewHolder, position: Int) {
         val candidate = getItem(position)
-        Glide.with(holder.itemView.context)// Transformation de l'URI en chemin compréhensible par le ImageView
+        Glide.with(holder.itemView.context)
             .load(candidate.photo)
             .placeholder(R.drawable.ic_placeholder)
             .error(R.drawable.ic_placeholder)
@@ -33,10 +36,14 @@ class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(Candidate
             .into(holder.picture)
         holder.name.text = String.format(candidate.firstName + " " + candidate.lastName)
         holder.note.text = candidate.note
+
+        /**
+         * Navigation vers le fragment de détail d'un candidat
+         */
         holder.itemView.setOnClickListener {
             val id = candidate.id ?: return@setOnClickListener
             val bundle = Bundle().apply { putLong("candidateId", id) }
-            Navigation.findNavController(it).navigate(R.id.action_to_detailFragment,bundle)
+            Navigation.findNavController(it).navigate(R.id.action_to_detailFragment, bundle)
         }
 
     }
