@@ -206,4 +206,10 @@ class CandidateDaoTest {
         assert("Smith" == favoriteCandidate[0].lastName)
     }
 
+    @Test
+    fun getCandidateWhenEmpty() = runBlocking {
+        val emptyList = candidateDao.getAllCandidates().first()
+        assert(emptyList == emptyList<Candidate>())
+    }
+
 }
