@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +18,9 @@ class AddFragment : Fragment(R.layout.fragment_add) {
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel : AddViewModel by viewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,4 +29,16 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         _binding = FragmentAddBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        goBack()
+    }
+
+    fun goBack(){
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
 }

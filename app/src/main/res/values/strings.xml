@@ -6,4 +6,8 @@
     <string name="all_tab">All</string>
     <string name="favorite_tab">Favorites</string>
     <string name="no_candidate">No candidate</string>
+
+    <!-- Add Screen -->
+    <string name="appBarTitle">Add a candidate</string>
+
 </resources>
