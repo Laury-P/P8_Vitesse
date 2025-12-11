@@ -9,5 +9,6 @@
 
     <!-- Add Screen -->
     <string name="appBarTitle">Add a candidate</string>
+    <string name="profil_picture">Profile picture</string>
 
 </resources>
