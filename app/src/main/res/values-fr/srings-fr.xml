@@ -11,6 +11,8 @@
     <!-- Add Screen -->
     <string name="appBarTitle">Ajouter un candidat</string>
     <string name="profil_picture">Photo de profil</string>
+    <string name="hint_firstname">Prénom</string>
+    <string name="hint_lastname">Nom</string>
 
 
 </resources>

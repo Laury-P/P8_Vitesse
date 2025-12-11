@@ -18,6 +18,7 @@
         app:title="@string/appBarTitle"
         android:background="@color/appBar_surface"/>
 
+    <!-- Profil picture -->
     <ImageView
         android:id="@+id/profil_picture"
         android:layout_width="match_parent"
@@ -30,6 +31,62 @@
         android:clickable="true"
         android:focusable="true"
         android:contentDescription="@string/profil_picture"/>
+
+    <!-- Section nom et prénom -->
+    <ImageView
+        android:id="@+id/icon_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/profil_picture"
+        app:layout_constraintTop_toBottomOf="@id/profil_picture"
+        android:src="@drawable/ic_name"
+        android:layout_marginVertical="26dp"
+        android:padding="12dp"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/firstname_outline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:hint="@string/hint_firstname"
+        app:layout_constraintStart_toEndOf="@id/icon_name"
+        app:layout_constraintTop_toTopOf="@id/icon_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ET_firstname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lastname_outline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:hint="@string/hint_lastname"
+        app:layout_constraintStart_toStartOf="@id/firstname_outline"
+        app:layout_constraintTop_toBottomOf="@id/firstname_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginVertical="33dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ET_lastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
