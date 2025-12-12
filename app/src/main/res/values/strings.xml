@@ -12,5 +12,6 @@
     <string name="profil_picture">Profile picture</string>
     <string name="hint_firstname">First name</string>
     <string name="hint_lastname">Last name</string>
+    <string name="hint_phone">Phone</string>
 
 </resources>

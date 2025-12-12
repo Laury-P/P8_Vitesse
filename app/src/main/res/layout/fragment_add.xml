@@ -83,6 +83,39 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Section téléphone -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/phone_outline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:hint="@string/hint_phone"
+        app:layout_constraintStart_toStartOf="@id/firstname_outline"
+        app:layout_constraintTop_toBottomOf="@id/lastname_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginVertical="33dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ET_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_phone"
+        app:layout_constraintTop_toTopOf="@id/phone_outline"
+        app:layout_constraintStart_toStartOf="@id/icon_name"
+        android:padding="12dp"/>
+
+    <!-- Section Email -->
+
+
+
 
 
 
