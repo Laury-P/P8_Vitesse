@@ -1,177 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.addScreen.AddFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="@string/appBarTitle"
-        android:background="@color/appBar_surface"/>
-
-    <!-- Profil picture -->
-    <ImageView
-        android:id="@+id/profil_picture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="250dp"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:src="@drawable/ic_placeholder"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="@string/profil_picture"/>
-
-    <!-- Section nom et prénom -->
-    <ImageView
-        android:id="@+id/icon_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/profil_picture"
-        app:layout_constraintTop_toBottomOf="@id/profil_picture"
-        android:src="@drawable/ic_name"
-        android:layout_marginVertical="26dp"
-        android:padding="12dp"
-        />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/firstname_outline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:hint="@string/hint_firstname"
-        app:layout_constraintStart_toEndOf="@id/icon_name"
-        app:layout_constraintTop_toTopOf="@id/icon_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ET_firstname"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lastname_outline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:hint="@string/hint_lastname"
-        app:layout_constraintStart_toStartOf="@id/firstname_outline"
-        app:layout_constraintTop_toBottomOf="@id/firstname_outline"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp"
-        android:layout_marginVertical="33dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ET_lastname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Section téléphone -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phone_outline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:hint="@string/hint_phone"
-        app:layout_constraintStart_toStartOf="@id/firstname_outline"
-        app:layout_constraintTop_toBottomOf="@id/lastname_outline"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp"
-        android:layout_marginVertical="33dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ET_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_phone"
-        app:layout_constraintTop_toTopOf="@id/phone_outline"
-        app:layout_constraintStart_toStartOf="@id/icon_name"
-        android:padding="12dp"/>
-
-    <!-- Section Email -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_outline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:hint="@string/hint_email"
-        app:layout_constraintStart_toStartOf="@id/phone_outline"
-        app:layout_constraintTop_toBottomOf="@id/phone_outline"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp"
-        android:layout_marginVertical="33dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ET_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_email"
-        app:layout_constraintTop_toTopOf="@id/email_outline"
-        app:layout_constraintStart_toStartOf="@id/icon_name"
-        android:padding="12dp"/>
-
-    <!-- Section anniversaire -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/birthday_outline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        app:layout_constraintStart_toStartOf="@id/email_outline"
-        app:layout_constraintTop_toBottomOf="@id/email_outline"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/hint_birthday"
-        android:layout_marginEnd="24dp"
-        android:layout_marginVertical="33dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ET_birthay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:cursorVisible="false"
-            android:inputType="none"
+            android:layout_height="?attr/actionBarSize"
             android:clickable="true"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:focusable="true"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/appBarTitle"
+            android:background="@color/appBar_surface"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_birthday"
-        app:layout_constraintTop_toTopOf="@id/birthday_outline"
-        app:layout_constraintStart_toStartOf="@id/icon_name"
-        android:padding="12dp"/>
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Profil picture -->
+            <ImageView
+                android:id="@+id/profil_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="250dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_placeholder"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/profil_picture"/>
+
+            <!-- Section nom et prénom -->
+            <ImageView
+                android:id="@+id/icon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profil_picture"
+                android:src="@drawable/ic_name"
+                android:layout_marginVertical="26dp"
+                android:padding="12dp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/firstname_outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_firstname"
+                app:layout_constraintStart_toEndOf="@id/icon_name"
+                app:layout_constraintTop_toTopOf="@id/icon_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lastname_outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_lastname"
+                app:layout_constraintStart_toStartOf="@id/firstname_outline"
+                app:layout_constraintTop_toBottomOf="@id/firstname_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:layout_marginVertical="33dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Section téléphone -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_phone"
+                app:layout_constraintStart_toStartOf="@id/firstname_outline"
+                app:layout_constraintTop_toBottomOf="@id/lastname_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:layout_marginVertical="33dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_phone"
+                app:layout_constraintTop_toTopOf="@id/phone_outline"
+                app:layout_constraintStart_toStartOf="@id/icon_name"
+                android:padding="12dp"/>
+
+            <!-- Section Email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_email"
+                app:layout_constraintStart_toStartOf="@id/phone_outline"
+                app:layout_constraintTop_toBottomOf="@id/phone_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:layout_marginVertical="33dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_email"
+                app:layout_constraintTop_toTopOf="@id/email_outline"
+                app:layout_constraintStart_toStartOf="@id/icon_name"
+                android:padding="12dp"/>
+
+            <!-- Section anniversaire -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/birthday_outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                app:layout_constraintStart_toStartOf="@id/email_outline"
+                app:layout_constraintTop_toBottomOf="@id/email_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:hint="@string/hint_birthday"
+                android:layout_marginEnd="24dp"
+                android:layout_marginVertical="33dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_birthay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none"
+                    android:clickable="true"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_birthday"
+                app:layout_constraintTop_toTopOf="@id/birthday_outline"
+                app:layout_constraintStart_toStartOf="@id/icon_name"
+                android:padding="12dp"/>
 
             <!-- Section pretention salariale -->
             <com.google.android.material.textfield.TextInputLayout
@@ -194,8 +208,6 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,3 +215,8 @@
                 app:layout_constraintTop_toTopOf="@id/salary_outline"
                 app:layout_constraintStart_toStartOf="@id/icon_name"
                 android:padding="12dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
