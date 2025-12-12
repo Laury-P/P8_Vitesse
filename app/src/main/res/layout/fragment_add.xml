@@ -113,6 +113,33 @@
         android:padding="12dp"/>
 
     <!-- Section Email -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_outline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:hint="@string/hint_email"
+        app:layout_constraintStart_toStartOf="@id/phone_outline"
+        app:layout_constraintTop_toBottomOf="@id/phone_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginVertical="33dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ET_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_email"
+        app:layout_constraintTop_toTopOf="@id/email_outline"
+        app:layout_constraintStart_toStartOf="@id/icon_name"
+        android:padding="12dp"/>
 
 
 

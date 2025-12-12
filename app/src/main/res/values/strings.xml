@@ -13,5 +13,6 @@
     <string name="hint_firstname">First name</string>
     <string name="hint_lastname">Last name</string>
     <string name="hint_phone">Phone</string>
+    <string name="hint_email">Email</string>
 
 </resources>
