@@ -173,10 +173,33 @@
         app:layout_constraintStart_toStartOf="@id/icon_name"
         android:padding="12dp"/>
 
+            <!-- Section pretention salariale -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/salary_outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_salary"
+                app:layout_constraintStart_toStartOf="@id/birthday_outline"
+                app:layout_constraintTop_toBottomOf="@id/birthday_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                android:layout_marginVertical="33dp">
 
-
-
-
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ET_salary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_salary"
+                app:layout_constraintTop_toTopOf="@id/salary_outline"
+                app:layout_constraintStart_toStartOf="@id/icon_name"
+                android:padding="12dp"/>
