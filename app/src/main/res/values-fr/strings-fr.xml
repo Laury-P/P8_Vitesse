@@ -15,6 +15,8 @@
     <string name="hint_lastname">Nom</string>
     <string name="hint_phone">Téléphone</string>
     <string name="hint_email">Email</string>
+    <string name="hint_birthday">Date de naissance</string>
+    <string name="hint_datePicker">Sélectionner une date</string>
 
 
 </resources>

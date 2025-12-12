@@ -11,6 +11,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputEditText
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +48,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         super.onViewCreated(view, savedInstanceState)
         goBack()
         setImagePicker()
+        setDatePicker()
     }
 
     private fun goBack() {
@@ -67,6 +72,31 @@ class AddFragment : Fragment(R.layout.fragment_add) {
     private fun setProfilPicture(uri: Uri) {
         viewModel.setPhoto(uri.toString())
         binding.profilPicture.setImageURI(uri)
+    }
+
+    private fun setDatePicker() {
+        binding.ETBirthay.setOnClickListener {
+            openDatePicker()
+        }
+    }
+
+    private fun openDatePicker(){
+        val constraints = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointBackward.now()) //empêche l'utilisateur de saisir des dates future
+            .build()
+
+        val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
+            .setCalendarConstraints(constraints)
+            .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+        datePickerBuilder.setTitleText(R.string.hint_datePicker)
+
+        val datePicker = datePickerBuilder.build()
+
+        datePicker.show(childFragmentManager, "DATE_PICKER")
+
+        datePicker.addOnPositiveButtonClickListener {
+            binding.ETBirthay.setText(datePicker.headerText)
+        }
     }
 
 
