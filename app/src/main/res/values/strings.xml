@@ -17,6 +17,7 @@
     <string name="hint_birthday">Birthday</string>
     <string name="hint_datePicker">Select a date</string>
     <string name="hint_salary">"Expected salary "</string>
+    <string name="hint_note">Notes</string>
 
 
 </resources>

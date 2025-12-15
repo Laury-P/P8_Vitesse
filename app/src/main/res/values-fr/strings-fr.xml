@@ -18,6 +18,7 @@
     <string name="hint_birthday">Date de naissance</string>
     <string name="hint_datePicker">Sélectionner une date</string>
     <string name="hint_salary">Prétentions salariales</string>
+    <string name="hint_note">Notes</string>
 
 
 </resources>

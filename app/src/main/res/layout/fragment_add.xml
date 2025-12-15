@@ -24,7 +24,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -215,7 +215,44 @@
                 app:layout_constraintTop_toTopOf="@id/salary_outline"
                 app:layout_constraintStart_toStartOf="@id/icon_name"
                 android:padding="12dp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!-- Section note -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/note_outline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:hint="@string/hint_note"
+            app:layout_constraintStart_toStartOf="@id/salary_outline"
+            app:layout_constraintTop_toBottomOf="@id/salary_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginVertical="33dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ET_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="5"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:gravity="top"
+                android:scrollbars="vertical"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_note"
+            app:layout_constraintTop_toTopOf="@id/note_outline"
+            app:layout_constraintStart_toStartOf="@id/icon_name"
+            android:padding="12dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 
