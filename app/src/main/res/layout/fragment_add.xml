@@ -23,6 +23,7 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -30,7 +31,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="80dp">
 
             <!-- Profil picture -->
             <ImageView
@@ -254,6 +256,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fab_save"
+        android:textColor="@color/on_color"
+        android:textSize="20sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:backgroundTint="@color/tertiary"
+        app:layout_anchorGravity="bottom"
+        app:layout_anchor="@id/scrollView"
+        android:layout_margin="16dp"
+        app:shapeAppearanceOverlay="@style/ShapeRoundedFAB"
+        />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

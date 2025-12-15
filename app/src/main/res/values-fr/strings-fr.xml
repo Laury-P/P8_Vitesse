@@ -19,6 +19,9 @@
     <string name="hint_datePicker">Sélectionner une date</string>
     <string name="hint_salary">Prétentions salariales</string>
     <string name="hint_note">Notes</string>
+    <string name="fab_save">Sauvegarder</string>
+
+
 
 
 </resources>

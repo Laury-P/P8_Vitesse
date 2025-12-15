@@ -18,6 +18,7 @@
     <string name="hint_datePicker">Select a date</string>
     <string name="hint_salary">"Expected salary "</string>
     <string name="hint_note">Notes</string>
+    <string name="fab_save">Save</string>
 
 
 </resources>
