@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vitesse</string>
+
+    <!-- Home Screen -->
+    <string name="search_candidate">Rechercher un candidat</string>
+    <string name="all_tab">Tous</string>
+    <string name="favorite_tab">Favoris</string>
+    <string name="no_candidate">Aucun candidat</string>
+
+    <!-- Add Screen -->
+    <string name="appBarTitle">Ajouter un candidat</string>
+    <string name="profil_picture">Photo de profil</string>
+    <string name="hint_firstname">Prénom</string>
+    <string name="hint_lastname">Nom</string>
+    <string name="hint_phone">Téléphone</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_birthday">Date de naissance</string>
+    <string name="hint_datePicker">Sélectionner une date</string>
+    <string name="hint_salary">Prétentions salariales</string>
+    <string name="hint_note">Notes</string>
+    <string name="fab_save">Sauvegarder</string>
+    <string name="mandatoryField">Champs obligatoire</string>
+    <string name="emailError">Format invalide</string>
+
+
+</resources>
