@@ -81,9 +81,13 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
             val phoneError = if (candidate.phoneNumber.isBlank()) emptyError else null
             val emailError =
                 if (candidate.email.isBlank()) emptyError
-                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(candidate.email)
-                        .matches()
-                ) emailError
+                /**
+                 * else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(candidate.email)
+                 *                         .matches()
+                 *                 ) emailError
+                 * Fonctionne mais bloque les test
+                 */
+                else if (!isEmailValid(candidate.email)) emailError
                 else null
             val birthdayError = if (candidate.dateOfBirth == LocalDate.now()) emptyError
             else null
@@ -98,6 +102,11 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
                 isCandidateCorrect = isCandidateCorrect
             )
         }
+    }
+
+    private fun isEmailValid(email: String): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$".toRegex()
+        return emailRegex.matches(email)
     }
 }
 

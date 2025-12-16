@@ -64,8 +64,8 @@ class AddFragment : Fragment(R.layout.fragment_add) {
     /**
      * Lancement de pickMedia pour que l'utilisateur puissent choisir la photo a utiliser pour le candidat
      */
-    private fun setupImagePicker(){
-        binding.profilPicture.setOnClickListener{
+    private fun setupImagePicker() {
+        binding.profilPicture.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
@@ -84,7 +84,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         }
     }
 
-    private fun openDatePicker(){
+    private fun openDatePicker() {
         val constraints = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointBackward.now()) //empêche l'utilisateur de saisir des dates future
             .build()
@@ -104,13 +104,13 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         }
     }
 
-    private fun setupFab(){
-        binding.fabSave.setOnClickListener{
-           viewModel.saveCandidate()
+    private fun setupFab() {
+        binding.fabSave.setOnClickListener {
+            viewModel.saveCandidate()
         }
     }
 
-    private fun setupCandidate(){
+    private fun setupCandidate() {
         binding.ETFirstname.addTextChangedListener {
             viewModel.setFirstName(it.toString())
         }
@@ -131,22 +131,21 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         }
     }
 
-    private fun setupCandidateStateCollector(){
+    private fun setupCandidateStateCollector() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.candidateState.collect {
-                binding.firstnameOutline.error = it.firstnameError?.let { error -> getString(error) }
+                binding.firstnameOutline.error =
+                    it.firstnameError?.let { error -> getString(error) }
                 binding.lastnameOutline.error = it.lastnameError?.let { error -> getString(error) }
                 binding.phoneOutline.error = it.phoneError?.let { error -> getString(error) }
                 binding.birthdayOutline.error = it.birthdayError?.let { error -> getString(error) }
                 binding.emailOutline.error = it.emailError?.let { error -> getString(error) }
 
-                if(it.isCandidateCorrect) findNavController().popBackStack()
+                if (it.isCandidateCorrect) findNavController().popBackStack()
             }
         }
 
     }
-
-
 
 
 }
