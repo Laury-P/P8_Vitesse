@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Vitesse</string>
 
+    <!-- App -->
+    <string name="favorite">Favorites</string>
+
     <!-- Home Screen -->
     <string name="search_candidate">Search</string>
     <string name="all_tab">All</string>
-    <string name="favorite_tab">Favorites</string>
     <string name="no_candidate">No candidate</string>
 
     <!-- Add Screen -->
@@ -22,5 +24,8 @@
     <string name="mandatoryField">Mandatory field</string>
     <string name="emailError">Invalid format</string>
 
+    <!-- Detail Screen -->
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
 </resources>

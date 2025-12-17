@@ -5,10 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentDetailBinding
 import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 /**
@@ -22,6 +28,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel : DetailViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,8 +42,50 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = arguments?.getLong("candidateId")
-        binding.textView.text = id.toString()
+        if (id != null) setupCandidate(id)
+        else findNavController().popBackStack() // Erreur lors de la reception de l'intent
+        // TODO : add error
+        setupBackNavigation()
+        setupMenu()
     }
+
+    private fun setupCandidate(id: Long) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCandidateById(id)
+            viewModel.candidateFlow.collect {
+                binding.toolbar.title = "${it.firstName} ${it.lastName.uppercase()}"
+                binding.toolbar.menu.findItem(R.id.menuFavorite).setIcon(if (it.isFavorite) R.drawable.ic_is_favorite else R.drawable.ic_not_favorite)
+            }
+        }
+    }
+
+    private fun setupBackNavigation(){
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun setupMenu(){
+        val menuFav = binding.toolbar.menu.findItem(R.id.menuFavorite)
+        val menuEdit = binding.toolbar.menu.findItem(R.id.menuEdit)
+        val menuDelete = binding.toolbar.menu.findItem(R.id.menuDelete)
+        menuFav.setOnMenuItemClickListener {
+            viewModel.setFavorite()
+            return@setOnMenuItemClickListener true
+        }
+        menuEdit.setOnMenuItemClickListener {
+            // TODO : add edit
+            return@setOnMenuItemClickListener true
+        }
+        menuDelete.setOnMenuItemClickListener {
+            // TODO : add delete
+            return@setOnMenuItemClickListener true
+        }
+
+
+
+    }
+
 
 
 }

@@ -9,6 +9,7 @@ import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.openclassroom.p8_vitesse.R
@@ -67,7 +68,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun setupFab() {
         binding.fab.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_to_addFragment)
+            findNavController().navigate(R.id.action_to_addFragment)
         }
     }
 
