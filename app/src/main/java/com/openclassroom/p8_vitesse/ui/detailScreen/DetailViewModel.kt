@@ -1,5 +1,8 @@
 package com.openclassroom.p8_vitesse.ui.detailScreen
 
+import android.content.Intent
+import android.net.Uri
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassroom.p8_vitesse.data.repository.CandidateRepository
