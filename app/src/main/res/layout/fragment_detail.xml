@@ -138,29 +138,23 @@
                 android:background="@drawable/detail_card_round_corner"
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="24dp"
-                android:weightSum="5">
+                android:paddingVertical="24dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/birthday_title"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:layout_weight="2"
-                    android:paddingBottom="40dp"
-                    />
+                    android:paddingBottom="40dp" />
                 <TextView
                     android:id="@+id/TV_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBodyLarge"
-                    android:layout_weight="2"
-                   />
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/birthday_label"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:layout_weight="1"/>
+                    android:textAppearance="?attr/textAppearanceBodyMedium"/>
             </LinearLayout>
 
             <!-- Section Salary -->
@@ -170,14 +164,12 @@
                 android:background="@drawable/detail_card_round_corner"
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="24dp"
-                android:weightSum="5">
+                android:paddingVertical="24dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/salary_title"
+                    android:text="@string/hint_salary"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:layout_weight="2"
                     android:paddingBottom="40dp"
                     />
                 <TextView
@@ -185,15 +177,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceBodyLarge"
-                    android:layout_weight="2"
                     android:paddingBottom="32dp"
                     />
                 <TextView
                     android:id="@+id/TV_salary_pounds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:layout_weight="1"/>
+                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+            </LinearLayout>
+
+            <!-- Section Note -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_card_round_corner"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint_note"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:paddingBottom="40dp"
+                    />
+                <TextView
+                    android:id="@+id/TV_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
             </LinearLayout>
 
 

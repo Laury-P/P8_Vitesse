@@ -21,12 +21,6 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -34,7 +28,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val binding get() = _binding!!
 
     private val viewModel: DetailViewModel by viewModels()
-    private val CALL_PERMISSION_CODE = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,6 +71,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, "-")
                     binding.TVSalaryPounds.text = getString(R.string.salary_pounds, "-")
                 }
+                it.note?.let { note -> binding.TVNote.text = note }
             }
 
         }

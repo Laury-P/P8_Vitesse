@@ -38,7 +38,6 @@
     <string name="birthday_title">A propos</string>
     <string name="birthday_label">Anniversaire</string>
     <string name="age_format">%1$s (%2$d ans)</string>
-    <string name="salary_title">Prétentions salariales</string>
     <string name="salary_euros">%1$s €</string>
     <string name="salary_pounds">soit £ %1$s </string>
 

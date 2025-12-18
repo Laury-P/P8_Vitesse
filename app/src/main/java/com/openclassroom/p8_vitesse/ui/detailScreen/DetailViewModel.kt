@@ -40,7 +40,7 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
     }
 
     fun setFavorite() {
-        var newFavoriteValue = !candidateFlow.value.isFavorite
+        val newFavoriteValue = !candidateFlow.value.isFavorite
         _candidateFlow.update {
             it.copy(isFavorite = newFavoriteValue)
         }
