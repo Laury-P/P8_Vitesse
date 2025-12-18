@@ -28,6 +28,10 @@
     <!-- Detail Screen -->
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>
+    <string name="delete_dialogue_title">Suppression</string>
+    <string name="delete_confirmation">Etes-vous sûr de vouloir supprimer ce candidat ? Cette action est irréversible.</string>
+    <string name="delete_confirm_button">Confirmer</string>
+    <string name="delete_denied_button">Annuler</string>
 
 
 </resources>

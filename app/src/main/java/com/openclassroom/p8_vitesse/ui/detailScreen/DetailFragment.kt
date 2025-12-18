@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -78,13 +79,24 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             return@setOnMenuItemClickListener true
         }
         menuDelete.setOnMenuItemClickListener {
-            // TODO : add delete
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle(R.string.delete_dialogue_title)
+            builder.setMessage(R.string.delete_confirmation)
+            builder.setPositiveButton(R.string.delete_confirm_button) {_, _ ->
+                viewModel.deleteCandidate()
+                findNavController().popBackStack()
+            }
+            builder.setNegativeButton(R.string.delete_denied_button, null)
+            val dialog = builder.create()
+            dialog.show()
             return@setOnMenuItemClickListener true
         }
 
 
 
     }
+
+
 
 
 

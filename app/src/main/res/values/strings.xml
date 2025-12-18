@@ -27,5 +27,10 @@
     <!-- Detail Screen -->
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="delete_dialogue_title">Deletion</string>
+    <string name="delete_confirmation">Are you sure you want to delete this candidate? This action cannot be undone.</string>
+    <string name="delete_confirm_button">Confirm</string>
+    <string name="delete_denied_button">Cancel</string>
+
 
 </resources>

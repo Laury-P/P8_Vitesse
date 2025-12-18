@@ -43,7 +43,19 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
         _candidateFlow.update {
             it.copy(isFavorite = newFavoriteValue)
         }
-        val candidate = Candidate(
+        viewModelScope.launch {
+            repository.upsertCandidate(candidateBuilder())
+        }
+    }
+
+    fun deleteCandidate(){
+        viewModelScope.launch {
+            repository.deleteCandidate(candidateBuilder())
+        }
+    }
+
+    private fun candidateBuilder() : Candidate{
+        return Candidate(
             id = candidateFlow.value.id,
             firstName = candidateFlow.value.firstName,
             lastName = candidateFlow.value.lastName,
@@ -53,11 +65,8 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
             note = candidateFlow.value.note,
             expectedSalary = candidateFlow.value.expectedSalary,
             dateOfBirth = candidateFlow.value.dateOfBirth,
-            isFavorite = newFavoriteValue
+            isFavorite = candidateFlow.value.isFavorite
         )
-        viewModelScope.launch {
-            repository.upsertCandidate(candidate)
-        }
     }
 }
 
