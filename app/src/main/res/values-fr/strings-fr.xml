@@ -35,6 +35,9 @@
     <string name="label_phoneCall">Appel</string>
     <string name="label_sms">SMS</string>
     <string name="label_email">E-mail</string>
+    <string name="birthday_title">A propos</string>
+    <string name="birthday_label">Anniversaire</string>
+    <string name="age_format">%1$s (%2$d ans)</string>
 
 
 </resources>

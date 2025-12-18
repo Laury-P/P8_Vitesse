@@ -1,26 +1,24 @@
 package com.openclassroom.p8_vitesse.ui.detailScreen
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentDetailBinding
-import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
@@ -36,7 +34,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val binding get() = _binding!!
 
     private val viewModel : DetailViewModel by viewModels()
-
     private val CALL_PERMISSION_CODE = 1
 
     override fun onCreateView(
@@ -71,8 +68,22 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     .error(R.drawable.ic_placeholder)
                     .centerCrop()
                     .into(binding.profilPicture)
+                binding.TVBirthday.text = birthdayFormatter(it.dateOfBirth)
             }
         }
+    }
+
+    private fun birthdayFormatter(date: LocalDate) : String{
+        val local = Locale.getDefault()
+        val pattern = when (local.language) {
+            Locale.FRENCH.language -> "dd/MM/yyyy"
+            else -> "MM/dd/yyyy"
+        }
+        val birthday = date.format(DateTimeFormatter.ofPattern(pattern))
+
+        val age = Period.between(date, LocalDate.now()).years
+
+        return getString(R.string.age_format, birthday, age)
     }
 
     private fun setupBackNavigation(){
