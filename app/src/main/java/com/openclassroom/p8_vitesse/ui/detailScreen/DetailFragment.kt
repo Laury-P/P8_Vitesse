@@ -33,7 +33,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel : DetailViewModel by viewModels()
+    private val viewModel: DetailViewModel by viewModels()
     private val CALL_PERMISSION_CODE = 1
 
     override fun onCreateView(
@@ -61,7 +61,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             viewModel.getCandidateById(id)
             viewModel.candidateFlow.collect {
                 binding.toolbar.title = "${it.firstName} ${it.lastName.uppercase()}"
-                binding.toolbar.menu.findItem(R.id.menuFavorite).setIcon(if (it.isFavorite) R.drawable.ic_is_favorite else R.drawable.ic_not_favorite)
+                binding.toolbar.menu.findItem(R.id.menuFavorite)
+                    .setIcon(if (it.isFavorite) R.drawable.ic_is_favorite else R.drawable.ic_not_favorite)
                 Glide.with(binding.profilPicture)
                     .load(it.photo)
                     .placeholder(R.drawable.ic_placeholder)
@@ -69,11 +70,21 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     .centerCrop()
                     .into(binding.profilPicture)
                 binding.TVBirthday.text = birthdayFormatter(it.dateOfBirth)
+                it.expectedSalary?.let { salary ->
+                    val formattedSalary = String.format("%.2f", salary)
+                    binding.TVSalaryEuros.text = getString(R.string.salary_euros, formattedSalary)
+                    binding.TVSalaryPounds.text = salaryConverter(salary)
+                } ?: run {
+                    binding.TVSalaryEuros.text = getString(R.string.salary_euros, "-")
+                    binding.TVSalaryPounds.text = getString(R.string.salary_pounds, "-")
+                }
             }
+
         }
     }
 
-    private fun birthdayFormatter(date: LocalDate) : String{
+
+    private fun birthdayFormatter(date: LocalDate): String {
         val local = Locale.getDefault()
         val pattern = when (local.language) {
             Locale.FRENCH.language -> "dd/MM/yyyy"
@@ -86,13 +97,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         return getString(R.string.age_format, birthday, age)
     }
 
-    private fun setupBackNavigation(){
+    private fun salaryConverter(euros: Double) : String{
+        val pounds = euros * 0.8782
+        val formattedSalary = String.format("%.2f", pounds)
+        return getString(R.string.salary_pounds, formattedSalary)
+    }
+
+    private fun setupBackNavigation() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
 
-    private fun setupMenu(){
+    private fun setupMenu() {
         val menuFav = binding.toolbar.menu.findItem(R.id.menuFavorite)
         val menuEdit = binding.toolbar.menu.findItem(R.id.menuEdit)
         val menuDelete = binding.toolbar.menu.findItem(R.id.menuDelete)
@@ -108,7 +125,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle(R.string.delete_dialogue_title)
             builder.setMessage(R.string.delete_confirmation)
-            builder.setPositiveButton(R.string.delete_confirm_button) {_, _ ->
+            builder.setPositiveButton(R.string.delete_confirm_button) { _, _ ->
                 viewModel.deleteCandidate()
                 findNavController().popBackStack()
             }
@@ -119,8 +136,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun setupContactMenu(){
-        binding.callButton.setOnClickListener{
+    private fun setupContactMenu() {
+        binding.callButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
             intent.setData(Uri.parse("tel:${viewModel.candidateFlow.value.phoneNumber}"))
             startActivity(intent)
@@ -136,10 +153,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             startActivity(intent)
         }
     }
-
-
-
-
 
 
 }
