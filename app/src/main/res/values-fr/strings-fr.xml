@@ -33,6 +33,7 @@
     <string name="delete_confirm_button">Confirmer</string>
     <string name="delete_denied_button">Annuler</string>
     <string name="label_phoneCall">Appel</string>
+    <string name="label_sms">SMS</string>
 
 
 </resources>

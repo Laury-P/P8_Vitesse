@@ -114,6 +114,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             intent.setData(Uri.parse("tel:${viewModel.candidateFlow.value.phoneNumber}"))
             startActivity(intent)
         }
+        binding.smsButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.setData(Uri.parse("smsto:${viewModel.candidateFlow.value.phoneNumber}"))
+            startActivity(intent)
+        }
     }
 
 

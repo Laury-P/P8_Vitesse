@@ -32,6 +32,7 @@
     <string name="delete_confirm_button">Confirm</string>
     <string name="delete_denied_button">Cancel</string>
     <string name="label_phoneCall">Call</string>
+    <string name="label_sms">SMS</string>
 
 
 </resources>
