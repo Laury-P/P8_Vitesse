@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentDetailBinding
 import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
@@ -56,6 +57,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             viewModel.candidateFlow.collect {
                 binding.toolbar.title = "${it.firstName} ${it.lastName.uppercase()}"
                 binding.toolbar.menu.findItem(R.id.menuFavorite).setIcon(if (it.isFavorite) R.drawable.ic_is_favorite else R.drawable.ic_not_favorite)
+                Glide.with(binding.profilPicture)
+                    .load(it.photo)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
+                    .centerCrop()
+                    .into(binding.profilPicture)
             }
         }
     }
