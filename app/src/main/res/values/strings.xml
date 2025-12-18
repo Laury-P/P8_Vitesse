@@ -33,6 +33,7 @@
     <string name="delete_denied_button">Cancel</string>
     <string name="label_phoneCall">Call</string>
     <string name="label_sms">SMS</string>
+    <string name="label_email">E-mail</string>
 
 
 </resources>

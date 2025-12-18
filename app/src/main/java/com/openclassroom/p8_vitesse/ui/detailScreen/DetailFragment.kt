@@ -119,6 +119,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             intent.setData(Uri.parse("smsto:${viewModel.candidateFlow.value.phoneNumber}"))
             startActivity(intent)
         }
+        binding.emailButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.setData(Uri.parse("mailto:${viewModel.candidateFlow.value.email}"))
+            startActivity(intent)
+        }
     }
 
 
