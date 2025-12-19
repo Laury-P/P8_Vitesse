@@ -53,17 +53,18 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCandidateById(id)
             viewModel.candidateFlow.collect {
-                binding.toolbar.title = "${it.firstName} ${it.lastName.uppercase()}"
+                val candidate = it.candidate
+                binding.toolbar.title = "${candidate.firstName} ${candidate.lastName.uppercase()}"
                 binding.toolbar.menu.findItem(R.id.menuFavorite)
-                    .setIcon(if (it.isFavorite) R.drawable.ic_is_favorite else R.drawable.ic_not_favorite)
+                    .setIcon(if (candidate.isFavorite) R.drawable.ic_is_favorite else R.drawable.ic_not_favorite)
                 Glide.with(binding.profilPicture)
-                    .load(it.photo)
+                    .load(candidate.photo)
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_placeholder)
                     .centerCrop()
                     .into(binding.profilPicture)
-                binding.TVBirthday.text = birthdayFormatter(it.dateOfBirth)
-                it.expectedSalary?.let { salary ->
+                binding.TVBirthday.text = birthdayFormatter(candidate.dateOfBirth)
+                candidate.expectedSalary?.let { salary ->
                     val formattedSalary = String.format("%.2f", salary)
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, formattedSalary)
                     binding.TVSalaryPounds.text = salaryConverter(salary)
@@ -71,7 +72,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, "-")
                     binding.TVSalaryPounds.text = getString(R.string.salary_pounds, "-")
                 }
-                it.note?.let { note -> binding.TVNote.text = note }
+                candidate.note?.let { note -> binding.TVNote.text = note }
             }
 
         }
@@ -132,18 +133,21 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun setupContactMenu() {
         binding.callButton.setOnClickListener {
+            val number = viewModel.candidateFlow.value.candidate.phoneNumber
             val intent = Intent(Intent.ACTION_DIAL)
-            intent.setData(Uri.parse("tel:${viewModel.candidateFlow.value.phoneNumber}"))
+            intent.setData(Uri.parse("tel:${number}"))
             startActivity(intent)
         }
         binding.smsButton.setOnClickListener {
+            val number = viewModel.candidateFlow.value.candidate.phoneNumber
             val intent = Intent(Intent.ACTION_SENDTO)
-            intent.setData(Uri.parse("smsto:${viewModel.candidateFlow.value.phoneNumber}"))
+            intent.setData(Uri.parse("smsto:${number}"))
             startActivity(intent)
         }
         binding.emailButton.setOnClickListener {
+            val mail = viewModel.candidateFlow.value.candidate.email
             val intent = Intent(Intent.ACTION_SENDTO)
-            intent.setData(Uri.parse("mailto:${viewModel.candidateFlow.value.email}"))
+            intent.setData(Uri.parse("mailto:${mail}"))
             startActivity(intent)
         }
     }

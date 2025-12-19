@@ -24,62 +24,55 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
         candidate.id?.let {
             _candidateFlow.update {
                 it.copy(
-                    id = candidate.id,
-                    firstName = candidate.firstName,
-                    lastName = candidate.lastName,
-                    phoneNumber = candidate.phoneNumber,
-                    email = candidate.email,
-                    photo = candidate.photo,
-                    note = candidate.note,
-                    expectedSalary = candidate.expectedSalary,
-                    dateOfBirth = candidate.dateOfBirth,
-                    isFavorite = candidate.isFavorite
+                    candidate = Candidate(
+                        id = candidate.id,
+                        firstName = candidate.firstName,
+                        lastName = candidate.lastName,
+                        phoneNumber = candidate.phoneNumber,
+                        email = candidate.email,
+                        photo = candidate.photo,
+                        note = candidate.note,
+                        expectedSalary = candidate.expectedSalary,
+                        dateOfBirth = candidate.dateOfBirth,
+                        isFavorite = candidate.isFavorite
+                    )
                 )
             }
         }
     }
 
     fun setFavorite() {
-        val newFavoriteValue = !candidateFlow.value.isFavorite
+        val newFavoriteValue = !candidateFlow.value.candidate.isFavorite
         _candidateFlow.update {
-            it.copy(isFavorite = newFavoriteValue)
+            val updatedCandidate = it.candidate.copy(isFavorite = newFavoriteValue)
+            it.copy(candidate = updatedCandidate)
         }
         viewModelScope.launch {
-            repository.upsertCandidate(candidateBuilder())
+            repository.upsertCandidate(candidateFlow.value.candidate)
         }
     }
 
-    fun deleteCandidate(){
+    fun deleteCandidate() {
         viewModelScope.launch {
-            repository.deleteCandidate(candidateBuilder())
+            repository.deleteCandidate(candidateFlow.value.candidate)
         }
     }
 
-    private fun candidateBuilder() : Candidate{
-        return Candidate(
-            id = candidateFlow.value.id,
-            firstName = candidateFlow.value.firstName,
-            lastName = candidateFlow.value.lastName,
-            phoneNumber = candidateFlow.value.phoneNumber,
-            email = candidateFlow.value.email,
-            photo = candidateFlow.value.photo,
-            note = candidateFlow.value.note,
-            expectedSalary = candidateFlow.value.expectedSalary,
-            dateOfBirth = candidateFlow.value.dateOfBirth,
-            isFavorite = candidateFlow.value.isFavorite
-        )
-    }
 }
 
 data class CandidateDetail(
-    val id: Long = -1,
-    val firstName: String = "",
-    val lastName: String = "",
-    val phoneNumber: String = "",
-    val email: String = "",
-    val photo: String? = null,
-    val note: String? = null,
-    val expectedSalary: Double? = null,
-    val dateOfBirth: LocalDate = LocalDate.now(),
-    val isFavorite: Boolean = false
+    var candidate: Candidate = Candidate(
+        id = -1,
+        firstName = "",
+        lastName = "",
+        phoneNumber = "",
+        email = "",
+        photo = null,
+        note = null,
+        expectedSalary = null,
+        dateOfBirth = LocalDate.now(),
+        isFavorite = false
+    )
 )
+
+
