@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Vitesse</string>
 
+    <!-- App -->
+    <string name="favorite">Favorites</string>
+
     <!-- Home Screen -->
     <string name="search_candidate">Search</string>
     <string name="all_tab">All</string>
-    <string name="favorite_tab">Favorites</string>
     <string name="no_candidate">No candidate</string>
 
     <!-- Add Screen -->
@@ -21,6 +23,22 @@
     <string name="fab_save">Save</string>
     <string name="mandatoryField">Mandatory field</string>
     <string name="emailError">Invalid format</string>
+
+    <!-- Detail Screen -->
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="delete_dialogue_title">Deletion</string>
+    <string name="delete_confirmation">Are you sure you want to delete this candidate? This action cannot be undone.</string>
+    <string name="delete_confirm_button">Confirm</string>
+    <string name="delete_denied_button">Cancel</string>
+    <string name="label_phoneCall">Call</string>
+    <string name="label_sms">SMS</string>
+    <string name="label_email">E-mail</string>
+    <string name="birthday_title">About</string>
+    <string name="birthday_label">Birthday</string>
+    <string name="age_format">%1$s (%2$d years old)</string>
+    <string name="salary_euros">%1$s €</string>
+    <string name="salary_pounds">or £ %1$s </string>
 
 
 </resources>
