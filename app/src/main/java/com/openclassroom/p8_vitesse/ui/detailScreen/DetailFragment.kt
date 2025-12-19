@@ -42,8 +42,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
         val id = arguments?.getLong("candidateId")
         if (id != null) setupCandidate(id)
-        else findNavController().popBackStack() // Erreur lors de la reception de l'intent
-        // TODO : add error
+        else findNavController().popBackStack() // If any error occur during intent or id is lost or invalid
         setupBackNavigation()
         setupMenu()
         setupContactMenu()
@@ -92,7 +91,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         return getString(R.string.age_format, birthday, age)
     }
 
-    private fun salaryConverter(euros: Double) : String{
+    private fun salaryConverter(euros: Double): String {
         val pounds = euros * 0.8782
         val formattedSalary = String.format("%.2f", pounds)
         return getString(R.string.salary_pounds, formattedSalary)
