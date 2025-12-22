@@ -21,9 +21,7 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
     val candidateFlow: StateFlow<CandidateDetail> = _candidateFlow
 
      suspend fun getRate() : Double {
-        return try {
-            repository.getEurToPoundsRate()
-        } catch (e: Exception) { 0.0 }
+        return repository.getEurToPoundsRate()
     }
 
 

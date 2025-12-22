@@ -4,6 +4,7 @@
 
     <!-- App -->
     <string name="favorite">Favoris</string>
+    <string name="error_message">Erreur inconnue</string>
 
     <!-- Home Screen -->
     <string name="search_candidate">Rechercher un candidat</string>

@@ -1,23 +1,25 @@
 package com.openclassroom.p8_vitesse.ui.homeScreen
 
+import android.util.Log
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.data.repository.CandidateRepository
+import com.openclassroom.p8_vitesse.domain.Candidate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: CandidateRepository) : ViewModel() {
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
 
     private val _filter = MutableStateFlow("")
 
@@ -26,7 +28,7 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
     /**
      * Flow transmettant la liste de candidat en fonction de l'onglet selectionner et du filtre appliqué
      */
-    val candidateFlow = combine(
+    val candidateFlow : StateFlow<CandidateResult> = combine(
         repository.getAllCandidates(),
         repository.getFavoriteCandidates(),
         _filter,
@@ -40,15 +42,17 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
                 ignoreCase = true
             )
         }
+    }.map<List<Candidate>, CandidateResult> { list ->
+        CandidateResult.Success(list)
+    }.catch { e ->
+        Log.e("HomeViewModel", "Error while fetching candidates", e)
+        emit(CandidateResult.Error(R.string.error_message))
     }.onStart {
-        _isLoading.value = true
-        //delay(1000) //pour simuler un chargement et l'observer dans l'UI
-    }
-        .onEach { _isLoading.value = false }
-        .shareIn(
+        emit(CandidateResult.Loading)
+    }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            replay = 1
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = CandidateResult.Loading
         )
 
     /**
@@ -65,4 +69,6 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
         _isFavoriteSelected.value = tab
     }
 }
+
+
 

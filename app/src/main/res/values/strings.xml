@@ -3,11 +3,13 @@
 
     <!-- App -->
     <string name="favorite">Favorites</string>
+    <string name="error_message">Unknown error</string>
 
     <!-- Home Screen -->
     <string name="search_candidate">Search</string>
     <string name="all_tab">All</string>
     <string name="no_candidate">No candidate</string>
+
 
     <!-- Add Screen -->
     <string name="appBarTitle">Add a candidate</string>

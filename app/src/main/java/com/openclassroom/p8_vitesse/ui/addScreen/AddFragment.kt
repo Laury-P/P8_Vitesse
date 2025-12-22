@@ -3,6 +3,8 @@ package com.openclassroom.p8_vitesse.ui.addScreen
 import android.net.Uri
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,7 @@ import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
+import com.openclassroom.p8_vitesse.ui.utils.PhoneFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -94,9 +97,9 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             .setValidator(DateValidatorPointBackward.now()) //empêche l'utilisateur de saisir des dates future
             .build()
 
-        val datePickerBuilder =
-            MaterialDatePicker.Builder.datePicker().setCalendarConstraints(constraints)
-                .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+        val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
+            .setCalendarConstraints(constraints)
+            .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
         datePickerBuilder.setTitleText(R.string.hint_datePicker)
 
         binding.ETBirthay.text?.let {
@@ -134,9 +137,12 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             candidate.note?.let { note -> binding.ETNote.setText(note) }
             candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
             if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(candidate.dateOfBirth.toString())
-            Glide.with(binding.profilPicture).load(candidate.photo)
-                .placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder)
-                .centerCrop().into(binding.profilPicture)
+            Glide.with(binding.profilPicture)
+                .load(candidate.photo)
+                .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder)
+                .centerCrop()
+                .into(binding.profilPicture)
         }
     }
 
@@ -147,9 +153,24 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         binding.ETLastname.addTextChangedListener {
             viewModel.setLastName(it.toString())
         }
-        binding.ETPhone.addTextChangedListener {
-            viewModel.setPhoneNumber(it.toString())
-        }
+        binding.ETPhone.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) return
+                val formatted = PhoneFormatter.format(s.toString())
+
+                if (formatted != current) {
+                    current = formatted
+                    binding.ETPhone.setText(formatted)
+                    binding.ETPhone.setSelection(formatted.length)
+                }
+
+                viewModel.setPhoneNumber(current.filter { it.isDigit() })
+            }
+        })
+
         binding.ETEmail.addTextChangedListener {
             viewModel.setEmail(it.toString())
         }
