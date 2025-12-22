@@ -40,9 +40,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAddBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,8 +48,8 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = arguments?.getLong("candidateId")
-        if (id != null) {
+        val id = arguments?.getLong("candidateId") ?: -1L // If null then become the default value
+        if (id != -1L) {
             setupEditMode(id)
         }
         goBack()
@@ -96,9 +94,9 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             .setValidator(DateValidatorPointBackward.now()) //empêche l'utilisateur de saisir des dates future
             .build()
 
-        val datePickerBuilder = MaterialDatePicker.Builder.datePicker()
-            .setCalendarConstraints(constraints)
-            .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+        val datePickerBuilder =
+            MaterialDatePicker.Builder.datePicker().setCalendarConstraints(constraints)
+                .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
         datePickerBuilder.setTitleText(R.string.hint_datePicker)
 
         binding.ETBirthay.text?.let {
@@ -136,12 +134,9 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             candidate.note?.let { note -> binding.ETNote.setText(note) }
             candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
             if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(candidate.dateOfBirth.toString())
-            Glide.with(binding.profilPicture)
-                .load(candidate.photo)
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder)
-                .centerCrop()
-                .into(binding.profilPicture)
+            Glide.with(binding.profilPicture).load(candidate.photo)
+                .placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder)
+                .centerCrop().into(binding.profilPicture)
         }
     }
 
