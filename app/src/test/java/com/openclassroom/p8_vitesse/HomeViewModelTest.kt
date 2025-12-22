@@ -3,6 +3,7 @@ package com.openclassroom.p8_vitesse
 import app.cash.turbine.test
 import com.openclassroom.p8_vitesse.data.repository.CandidateRepository
 import com.openclassroom.p8_vitesse.domain.Candidate
+import com.openclassroom.p8_vitesse.ui.homeScreen.CandidateResult
 import com.openclassroom.p8_vitesse.ui.homeScreen.HomeViewModel
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -76,8 +77,10 @@ class HomeViewModelTest {
         viewModel.setFavoriteTabSelected(false)
 
         viewModel.candidateFlow.test{
+            val loading = awaitItem()
+            assert(loading is CandidateResult.Loading)
             val result = awaitItem()
-            assert(result == allCandidateList)
+            assert((result as CandidateResult.Success).candidates == allCandidateList)
 
             cancelAndConsumeRemainingEvents()
         }
@@ -94,10 +97,13 @@ class HomeViewModelTest {
         viewModel.setFavoriteTabSelected(false)
 
         viewModel.candidateFlow.test{
+            val loading = awaitItem()
+            assert(loading is CandidateResult.Loading)
             val result = awaitItem()
-            assert(result.size == 2)
-            assert(result[0].lastName == "Leclerc")
-            assert(result[1].lastName == "Lemoine")
+            assert(result is CandidateResult.Success)
+            assert((result as CandidateResult.Success).candidates.size == 2)
+            assert(result.candidates[0].lastName == "Leclerc")
+            assert(result.candidates[1].lastName == "Lemoine")
 
             cancelAndConsumeRemainingEvents()
         }
@@ -112,8 +118,10 @@ class HomeViewModelTest {
         viewModel.setFavoriteTabSelected(true)
 
         viewModel.candidateFlow.test{
+            val loading = awaitItem()
+            assert(loading is CandidateResult.Loading)
             val result = awaitItem()
-            assert(result == favoriteCandidateList)
+            assert((result as CandidateResult.Success).candidates == favoriteCandidateList)
 
             cancelAndConsumeRemainingEvents()
         }
@@ -128,9 +136,11 @@ class HomeViewModelTest {
         viewModel.setFavoriteTabSelected(true)
 
         viewModel.candidateFlow.test{
+            val loading = awaitItem()
+            assert(loading is CandidateResult.Loading)
             val result = awaitItem()
-            assert(result.size == 1)
-            assert(result[0].lastName == "Lemoine")
+            assert((result as CandidateResult.Success).candidates.size == 1)
+            assert(result.candidates[0].lastName == "Lemoine")
 
             cancelAndConsumeRemainingEvents()
         }
@@ -145,8 +155,10 @@ class HomeViewModelTest {
         viewModel.setFavoriteTabSelected(false)
 
         viewModel.candidateFlow.test {
+            val loading = awaitItem()
+            assert(loading is CandidateResult.Loading)
             val result = awaitItem()
-            assert(result == emptyList<Candidate>())
+            assert((result as CandidateResult.Success).candidates == emptyList<Candidate>())
         }
 
     }
