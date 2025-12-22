@@ -112,7 +112,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             return@setOnMenuItemClickListener true
         }
         menuEdit.setOnMenuItemClickListener {
-            // TODO : add edit
+            val id = viewModel.candidateFlow.value.candidate.id ?: return@setOnMenuItemClickListener false
+            val arguments = Bundle().apply { putLong("candidateId", id) }
+            findNavController().navigate(R.id.action_detail_to_add, arguments)
             return@setOnMenuItemClickListener true
         }
         menuDelete.setOnMenuItemClickListener {

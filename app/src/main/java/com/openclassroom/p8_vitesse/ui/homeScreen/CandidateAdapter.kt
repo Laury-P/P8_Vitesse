@@ -43,7 +43,7 @@ class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(Candidate
         holder.itemView.setOnClickListener {
             val id = candidate.id ?: return@setOnClickListener
             val bundle = Bundle().apply { putLong("candidateId", id) }
-            Navigation.findNavController(it).navigate(R.id.action_to_detailFragment, bundle)
+            Navigation.findNavController(it).navigate(R.id.action_home_to_detail, bundle)
         }
 
     }

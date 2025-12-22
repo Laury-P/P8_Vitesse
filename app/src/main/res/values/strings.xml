@@ -40,5 +40,8 @@
     <string name="salary_euros">%1$s €</string>
     <string name="salary_pounds">or £ %1$s </string>
 
+    <!-- Edit mode -->
+    <string name="edit_candidate">Edit a candidate</string>
+
 
 </resources>

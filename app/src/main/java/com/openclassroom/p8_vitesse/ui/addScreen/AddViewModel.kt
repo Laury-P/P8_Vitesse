@@ -21,52 +21,71 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
     private val _candidateState = MutableStateFlow(CandidateState())
     val candidateState: StateFlow<CandidateState> = _candidateState
 
-    private var candidate = Candidate(
-        firstName = "",
-        lastName = "",
-        phoneNumber = "",
-        dateOfBirth = LocalDate.now(),
-        email = ""
-    )
+    suspend fun getCandidate(id: Long) {
+        val candidate = repository.getCandidateById(id)
+        _candidateState.update {
+            it.copy(candidate = candidate)
+        }
+    }
 
     fun setFirstName(newName: String) {
-        candidate.firstName = newName
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(firstName = newName))
+        }
     }
 
     fun setLastName(newName: String) {
-        candidate.lastName = newName
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(lastName = newName))
+        }
     }
 
     fun setPhoneNumber(newPhone: String) {
-        candidate.phoneNumber = newPhone
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(phoneNumber = newPhone))
+        }
     }
 
     fun setEmail(newEmail: String) {
-        candidate.email = newEmail
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(email = newEmail))
+        }
     }
 
     fun setPhoto(newURI: String) {
-        candidate.photo = newURI
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(photo = newURI))
+        }
     }
 
     fun setNote(newNote: String) {
-        candidate.note = newNote
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(note = newNote))
+        }
     }
 
     fun setExpectedSalary(newSalary: String) {
-        candidate.expectedSalary = newSalary.toDouble()
+        _candidateState.update {
+            it.copy(candidate = it.candidate.copy(expectedSalary = newSalary.toDouble()))
+        }
     }
 
     fun setDateOfBirth(newBirthDate: Long) {
-        candidate.dateOfBirth =
-            Instant.ofEpochMilli(newBirthDate).atZone(ZoneId.systemDefault()).toLocalDate()
+        _candidateState.update {
+            it.copy(
+                candidate = it.candidate.copy(
+                    dateOfBirth = Instant.ofEpochMilli(newBirthDate).atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+                )
+            )
+        }
     }
 
     fun saveCandidate() {
         checkNecessaryFields()
         if (_candidateState.value.isCandidateCorrect) {
             viewModelScope.launch {
-                repository.upsertCandidate(candidate)
+                repository.upsertCandidate(_candidateState.value.candidate)
             }
         }
     }
@@ -74,18 +93,13 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
     private fun checkNecessaryFields() {
         val emptyError = R.string.mandatoryField
         val emailInvalid = R.string.emailError
+        val candidate = _candidateState.value.candidate
         _candidateState.update {
             val firstnameError = if (candidate.firstName.isBlank()) emptyError else null
             val lastnameError = if (candidate.lastName.isBlank()) emptyError else null
             val phoneError = if (candidate.phoneNumber.isBlank()) emptyError else null
             val emailError =
                 if (candidate.email.isBlank()) emptyError
-                /**
-                 * else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(candidate.email)
-                 *                         .matches()
-                 *                 ) emailError
-                 * Fonctionne mais bloque les test
-                 */
                 else if (!isEmailValid(candidate.email)) emailInvalid
                 else null
             val birthdayError = if (candidate.dateOfBirth == LocalDate.now()) emptyError
@@ -110,6 +124,15 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
 }
 
 data class CandidateState(
+    val candidate: Candidate = Candidate(
+        id = 0,
+        firstName = "",
+        lastName = "",
+        phoneNumber = "",
+        dateOfBirth = LocalDate.now(),
+        email = ""
+    ),
+
     val firstnameError: Int? = null,
     val lastnameError: Int? = null,
     val phoneError: Int? = null,
