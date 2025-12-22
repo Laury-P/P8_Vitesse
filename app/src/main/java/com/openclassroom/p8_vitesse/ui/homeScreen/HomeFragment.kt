@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.google.android.material.tabs.TabLayout
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -110,16 +112,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun observeCandidate() {
         viewLifecycleOwner.lifecycleScope.launch {
-            combine(viewModel.candidateFlow, viewModel.isLoading) { list, isLoading ->
-                list to isLoading
-            }.collect { (list, isLoading) ->
-                binding.loadingBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            viewModel.candidateFlow.collect { result ->
+                binding.loadingBar.visibility =
+                    if (result is CandidateResult.Loading) View.VISIBLE else View.GONE
                 binding.noCandidate.visibility =
-                    if (list.isEmpty() && !isLoading) View.VISIBLE else View.GONE
-                candidateAdapter.submitList(list)
+                    if (result is CandidateResult.Success && result.candidates.isEmpty()) View.VISIBLE else View.GONE
+
+                when (result) {
+                    is CandidateResult.Success -> candidateAdapter.submitList(result.candidates)
+                    is CandidateResult.Error -> {
+                        Toast.makeText(requireContext(), result.errorMessage, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    else -> {}
+                }
             }
         }
+
     }
+
 
     /**
      * Mise en place des onglets pour afficher les candidats favoris ou non
