@@ -1,7 +1,7 @@
 package com.openclassroom.p8_vitesse.di
 
 import android.content.Context
-import com.openclassroom.p8_vitesse.data.VitesseDatabase
+import com.openclassroom.p8_vitesse.data.local.VitesseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.openclassroom.p8_vitesse.data.entity
+package com.openclassroom.p8_vitesse.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

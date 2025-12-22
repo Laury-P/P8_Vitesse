@@ -1,4 +1,4 @@
-package com.openclassroom.p8_vitesse.data
+package com.openclassroom.p8_vitesse.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.openclassroom.p8_vitesse.data.converter.LocalDateConverter
-import com.openclassroom.p8_vitesse.data.dao.CandidateDao
-import com.openclassroom.p8_vitesse.data.entity.CandidateDto
+import com.openclassroom.p8_vitesse.data.local.converter.LocalDateConverter
+import com.openclassroom.p8_vitesse.data.local.dao.CandidateDao
+import com.openclassroom.p8_vitesse.data.local.entity.CandidateDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate

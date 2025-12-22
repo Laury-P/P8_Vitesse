@@ -1,4 +1,4 @@
-package com.openclassroom.p8_vitesse.data.converter
+package com.openclassroom.p8_vitesse.data.local.converter
 
 import androidx.room.TypeConverter
 import java.time.LocalDate

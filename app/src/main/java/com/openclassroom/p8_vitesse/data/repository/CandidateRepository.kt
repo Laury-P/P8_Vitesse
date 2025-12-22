@@ -1,6 +1,6 @@
 package com.openclassroom.p8_vitesse.data.repository
 
-import com.openclassroom.p8_vitesse.data.dao.CandidateDao
+import com.openclassroom.p8_vitesse.data.local.dao.CandidateDao
 import com.openclassroom.p8_vitesse.data.mapper.toDomain
 import com.openclassroom.p8_vitesse.data.mapper.toDto
 import com.openclassroom.p8_vitesse.domain.Candidate

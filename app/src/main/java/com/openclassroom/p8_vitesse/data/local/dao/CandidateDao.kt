@@ -1,10 +1,10 @@
-package com.openclassroom.p8_vitesse.data.dao
+package com.openclassroom.p8_vitesse.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.openclassroom.p8_vitesse.data.entity.CandidateDto
+import com.openclassroom.p8_vitesse.data.local.entity.CandidateDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
