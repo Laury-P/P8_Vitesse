@@ -124,22 +124,23 @@ class AddFragment : Fragment(R.layout.fragment_add) {
     }
 
     private fun setupEditMode(id: Long) {
-        viewLifecycleOwner.lifecycleScope.launch { viewModel.getCandidate(id)
-        val candidate = viewModel.candidateState.value.candidate
-        binding.toolbar.title = getString(R.string.edit_candidate)
-        binding.ETFirstname.setText(candidate.firstName)
-        binding.ETLastname.setText(candidate.lastName)
-        binding.ETPhone.setText(candidate.phoneNumber)
-        binding.ETEmail.setText(candidate.email)
-        candidate.note?.let { note -> binding.ETNote.setText(note) }
-        candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
-        candidate.dateOfBirth?.let { date -> binding.ETBirthay.setText(date.toString()) }
-        Glide.with(binding.profilPicture)
-            .load(candidate.photo)
-            .placeholder(R.drawable.ic_placeholder)
-            .error(R.drawable.ic_placeholder)
-            .centerCrop()
-            .into(binding.profilPicture)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCandidate(id)
+            val candidate = viewModel.candidateState.value.candidate
+            binding.toolbar.title = getString(R.string.edit_candidate)
+            binding.ETFirstname.setText(candidate.firstName)
+            binding.ETLastname.setText(candidate.lastName)
+            binding.ETPhone.setText(candidate.phoneNumber)
+            binding.ETEmail.setText(candidate.email)
+            candidate.note?.let { note -> binding.ETNote.setText(note) }
+            candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
+            candidate.dateOfBirth?.let { date -> binding.ETBirthay.setText(date.toString()) }
+            Glide.with(binding.profilPicture)
+                .load(candidate.photo)
+                .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder)
+                .centerCrop()
+                .into(binding.profilPicture)
         }
     }
 
