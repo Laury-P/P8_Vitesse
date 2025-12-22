@@ -9,10 +9,10 @@
         android:name="com.openclassroom.p8_vitesse.ui.homeScreen.HomeFragment"
         android:label="Home">
         <action
-            android:id="@+id/action_to_addFragment"
+            android:id="@+id/action_home_to_add"
             app:destination="@id/addFragment"/>
         <action
-            android:id="@+id/action_to_detailFragment"
+            android:id="@+id/action_home_to_detail"
             app:destination="@id/detailFragment">
             <argument
                 android:name="candidateId"
@@ -25,7 +25,12 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.openclassroom.p8_vitesse.ui.addScreen.AddFragment"
-        android:label="Add"/>
+        android:label="Add">
+        <argument
+            android:name="candidateId"
+            app:argType="long"
+            />
+    </fragment>
 
     <fragment
         android:id="@+id/detailFragment"
@@ -35,6 +40,13 @@
             android:name="candidateId"
             app:argType="long"
             />
+        <action android:id="@+id/action_detail_to_add"
+            app:destination="@id/addFragment">
+            <argument
+                android:name="candidateId"
+                app:argType="long"
+                />
+        </action>
     </fragment>
 
 

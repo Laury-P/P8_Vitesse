@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -19,6 +20,7 @@ import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.ZoneId
 
 @AndroidEntryPoint
 class AddFragment : Fragment(R.layout.fragment_add) {
@@ -47,6 +49,10 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val id = arguments?.getLong("candidateId")
+        if (id != null) {
+            setupEditMode(id)
+        }
         goBack()
         setupImagePicker()
         setupDatePicker()
@@ -94,6 +100,13 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
         datePickerBuilder.setTitleText(R.string.hint_datePicker)
 
+        binding.ETBirthay.text?.let {
+            val date = viewModel.candidateState.value.candidate.dateOfBirth
+            datePickerBuilder.setSelection(
+                date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            )
+        }
+
         val datePicker = datePickerBuilder.build()
 
         datePicker.show(childFragmentManager, "DATE_PICKER")
@@ -107,6 +120,26 @@ class AddFragment : Fragment(R.layout.fragment_add) {
     private fun setupFab() {
         binding.fabSave.setOnClickListener {
             viewModel.saveCandidate()
+        }
+    }
+
+    private fun setupEditMode(id: Long) {
+        viewLifecycleOwner.lifecycleScope.launch { viewModel.getCandidate(id)
+        val candidate = viewModel.candidateState.value.candidate
+        binding.toolbar.title = getString(R.string.edit_candidate)
+        binding.ETFirstname.setText(candidate.firstName)
+        binding.ETLastname.setText(candidate.lastName)
+        binding.ETPhone.setText(candidate.phoneNumber)
+        binding.ETEmail.setText(candidate.email)
+        candidate.note?.let { note -> binding.ETNote.setText(note) }
+        candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
+        candidate.dateOfBirth?.let { date -> binding.ETBirthay.setText(date.toString()) }
+        Glide.with(binding.profilPicture)
+            .load(candidate.photo)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_placeholder)
+            .centerCrop()
+            .into(binding.profilPicture)
         }
     }
 

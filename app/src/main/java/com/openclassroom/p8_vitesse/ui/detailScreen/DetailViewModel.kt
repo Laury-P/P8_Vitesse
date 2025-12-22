@@ -24,19 +24,8 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
         candidate.id?.let {
             _candidateFlow.update {
                 it.copy(
-                    candidate = Candidate(
-                        id = candidate.id,
-                        firstName = candidate.firstName,
-                        lastName = candidate.lastName,
-                        phoneNumber = candidate.phoneNumber,
-                        email = candidate.email,
-                        photo = candidate.photo,
-                        note = candidate.note,
-                        expectedSalary = candidate.expectedSalary,
-                        dateOfBirth = candidate.dateOfBirth,
-                        isFavorite = candidate.isFavorite
+                    candidate = candidate
                     )
-                )
             }
         }
     }
