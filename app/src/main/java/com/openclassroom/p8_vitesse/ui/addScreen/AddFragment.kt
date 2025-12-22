@@ -3,6 +3,8 @@ package com.openclassroom.p8_vitesse.ui.addScreen
 import android.net.Uri
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,7 @@ import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
+import com.openclassroom.p8_vitesse.ui.utils.PhoneFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -50,8 +53,8 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = arguments?.getLong("candidateId")
-        if (id != null) {
+        val id = arguments?.getLong("candidateId") ?: -1L
+        if (id != -1L) {
             setupEditMode(id)
         }
         goBack()
@@ -152,9 +155,24 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         binding.ETLastname.addTextChangedListener {
             viewModel.setLastName(it.toString())
         }
-        binding.ETPhone.addTextChangedListener {
-            viewModel.setPhoneNumber(it.toString())
-        }
+        binding.ETPhone.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) return
+                val formatted = PhoneFormatter.format(s.toString())
+
+                if (formatted != current) {
+                    current = formatted
+                    binding.ETPhone.setText(formatted)
+                    binding.ETPhone.setSelection(formatted.length)
+                }
+
+                viewModel.setPhoneNumber(current.filter { it.isDigit() })
+            }
+        })
+
         binding.ETEmail.addTextChangedListener {
             viewModel.setEmail(it.toString())
         }
