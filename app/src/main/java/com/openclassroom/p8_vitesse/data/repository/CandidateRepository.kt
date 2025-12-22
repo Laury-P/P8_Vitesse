@@ -1,5 +1,6 @@
 package com.openclassroom.p8_vitesse.data.repository
 
+import android.util.Log
 import com.openclassroom.p8_vitesse.data.local.dao.CandidateDao
 import com.openclassroom.p8_vitesse.data.mapper.toDomain
 import com.openclassroom.p8_vitesse.data.mapper.toDto
@@ -43,9 +44,13 @@ class CandidateRepository @Inject constructor(private val candidateDao: Candidat
     }
 
     suspend fun getEurToPoundsRate(): Double {
-        val response = apiService.getEuroToPoundsRate()
-        val rate = response.eurRate.euroToPoundsRate
-        return rate
+        return try {
+            val response = apiService.getEuroToPoundsRate()
+            response.eurRate.euroToPoundsRate
+        } catch (e:Exception) {
+            Log.e("CandidateRepository", "Error while fetching rate", e)
+            0.0
+        }
     }
 
 

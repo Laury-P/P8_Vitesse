@@ -6,10 +6,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class EurToPoundsResponse (
     @Json(name = "eur")
-    val eurRate: EurosRate
+    val eurRate: EurRate
 ){
     @JsonClass(generateAdapter = true)
-    data class EurosRate(
+    data class EurRate(
         @Json(name = "gbp")
         val euroToPoundsRate: Double,
     )
