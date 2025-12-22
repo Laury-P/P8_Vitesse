@@ -1,6 +1,7 @@
 package com.openclassroom.p8_vitesse.ui.detailScreen
 
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassroom.p8_vitesse.data.repository.CandidateRepository
@@ -18,6 +19,13 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
     ViewModel() {
     private val _candidateFlow = MutableStateFlow(CandidateDetail())
     val candidateFlow: StateFlow<CandidateDetail> = _candidateFlow
+
+     suspend fun getRate() : Double {
+        return try {
+            repository.getEurToPoundsRate()
+        } catch (e: Exception) { 0.0 }
+    }
+
 
     suspend fun getCandidateById(id: Long) {
         val candidate = repository.getCandidateById(id)

@@ -20,6 +20,7 @@ import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import kotlin.time.times
 
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -66,7 +67,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 candidate.expectedSalary?.let { salary ->
                     val formattedSalary = String.format("%.2f", salary)
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, formattedSalary)
-                    binding.TVSalaryPounds.text = salaryConverter(salary)
+                    binding.TVSalaryPounds.text = salaryConverter(salary, viewModel.getRate())
                 } ?: run {
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, "-")
                     binding.TVSalaryPounds.text = getString(R.string.salary_pounds, "-")
@@ -91,10 +92,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         return getString(R.string.age_format, birthday, age)
     }
 
-    private fun salaryConverter(euros: Double): String {
-        val pounds = euros * 0.8782
-        val formattedSalary = String.format("%.2f", pounds)
-        return getString(R.string.salary_pounds, formattedSalary)
+    private fun salaryConverter(euros: Double, rate: Double): String {
+        return if (rate != 0.0) {
+            val pounds = euros * rate
+            val formattedSalary = String.format("%.2f", pounds)
+            getString(R.string.salary_pounds, formattedSalary)
+        } else getString(R.string.salary_pounds, "-")
+
     }
 
     private fun setupBackNavigation() {
@@ -112,7 +116,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             return@setOnMenuItemClickListener true
         }
         menuEdit.setOnMenuItemClickListener {
-            val id = viewModel.candidateFlow.value.candidate.id ?: return@setOnMenuItemClickListener false
+            val id = viewModel.candidateFlow.value.candidate.id
+                ?: return@setOnMenuItemClickListener false
             val arguments = Bundle().apply { putLong("candidateId", id) }
             findNavController().navigate(R.id.action_detail_to_add, arguments)
             return@setOnMenuItemClickListener true
