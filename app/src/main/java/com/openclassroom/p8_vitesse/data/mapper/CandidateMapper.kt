@@ -1,6 +1,6 @@
 package com.openclassroom.p8_vitesse.data.mapper
 
-import com.openclassroom.p8_vitesse.data.entity.CandidateDto
+import com.openclassroom.p8_vitesse.data.local.entity.CandidateDto
 import com.openclassroom.p8_vitesse.domain.Candidate
 
 fun Candidate.toDto(): CandidateDto {

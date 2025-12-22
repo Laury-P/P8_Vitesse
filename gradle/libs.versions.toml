@@ -15,6 +15,10 @@ fragmentKtx = "1.6.1"
 desugar = "2.0.4"
 glide = "4.16.0"
 
+moshi = "1.15.0"
+retrofit = "2.9.0"
+okhttp = "4.10.0"
+
 junit = "4.13.2"
 androidxJunit = "1.1.5"
 mockk = "1.13.9"
@@ -50,6 +54,16 @@ desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref 
 # Glide
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+
+# Moshi
+moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+
+#Retrofit
+retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-loggin = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp"}
 
 # Tests
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -3,8 +3,8 @@ package com.openclassroom.p8_vitesse
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.openclassroom.p8_vitesse.data.VitesseDatabase
-import com.openclassroom.p8_vitesse.data.dao.CandidateDao
+import com.openclassroom.p8_vitesse.data.local.VitesseDatabase
+import com.openclassroom.p8_vitesse.data.local.dao.CandidateDao
 import com.openclassroom.p8_vitesse.data.mapper.toDto
 import com.openclassroom.p8_vitesse.domain.Candidate
 import kotlinx.coroutines.flow.first
