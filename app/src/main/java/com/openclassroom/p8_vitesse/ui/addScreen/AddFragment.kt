@@ -20,6 +20,7 @@ import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.ZoneId
 
 @AndroidEntryPoint
@@ -134,7 +135,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             binding.ETEmail.setText(candidate.email)
             candidate.note?.let { note -> binding.ETNote.setText(note) }
             candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
-            candidate.dateOfBirth?.let { date -> binding.ETBirthay.setText(date.toString()) }
+            if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(candidate.dateOfBirth.toString())
             Glide.with(binding.profilPicture)
                 .load(candidate.photo)
                 .placeholder(R.drawable.ic_placeholder)
