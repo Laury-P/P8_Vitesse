@@ -137,7 +137,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             candidate.note?.let { note -> binding.ETNote.setText(note) }
             candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
             if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(candidate.dateOfBirth.toString())
-            Glide.with(binding.profilPicture)
+            Glide.with(binding.profilPicture.context)
                 .load(candidate.photo)
                 .placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_placeholder)
