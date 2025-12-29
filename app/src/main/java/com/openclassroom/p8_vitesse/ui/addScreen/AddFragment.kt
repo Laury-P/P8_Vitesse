@@ -83,7 +83,10 @@ class AddFragment : Fragment(R.layout.fragment_add) {
      */
     private fun setProfilPicture(uri: Uri) {
         viewModel.setPhoto(uri.toString())
-        binding.profilPicture.setImageURI(uri)
+        Glide.with(binding.profilPicture.context)
+            .load(uri)
+            .centerCrop()
+            .into(binding.profilPicture)
     }
 
     private fun setupDatePicker() {

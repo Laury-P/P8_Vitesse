@@ -42,8 +42,8 @@
                 android:minHeight="195dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_placeholder"
                 android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="@string/profil_picture"/>
