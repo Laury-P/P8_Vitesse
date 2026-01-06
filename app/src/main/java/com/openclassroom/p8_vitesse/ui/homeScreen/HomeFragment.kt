@@ -48,8 +48,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView() // Mise en place du recycler view qui affiche la liste de candidat
         setupFab() // Mise en place du bouton pour ajouter un candidat
-        setupSearchWidget() // Mise en place du widget de recherche/filtrage de candidat par nom ou prénom
-        tabsSelectedDisplay() // Mise en place des onglets pour afficher les candidats favoris ou non
+        setupSearchWidget()// Mise en place du widget de recherche/filtrage de candidat par nom ou prénom
+        observeSelectedTabs()// Mise en place des onglets pour afficher les candidats favoris ou non
+        setupTabsListener()
         observeCandidate() // Lancement de l'observateur des listes de candidats venant de la BDD
     }
 
@@ -134,9 +135,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     /**
-     * Mise en place des onglets pour afficher les candidats favoris ou non
+     * Mise en place du listener pour la selection des onglets All et Favorite
      */
-    private fun tabsSelectedDisplay() {
+    private fun setupTabsListener() {
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
@@ -149,6 +150,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
         }
         )
+    }
+
+    /**
+     * Mise en place des onglets pour afficher les candidats favoris ou non
+     * S'assure qu'au repositionnement de l'écran ou retour depuis un autre écran, le bon onglet est sélectionné
+     */
+    private fun observeSelectedTabs() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isFavoriteSelected.collect { isFavoriteSelected ->
+                val expectedPosition = if (isFavoriteSelected) 1 else 0
+                val currentPosition = binding.tabs.selectedTabPosition
+                if (currentPosition != expectedPosition) binding.tabs.getTabAt(expectedPosition)
+                    ?.select()
+            }
+        }
+
+
     }
 
 

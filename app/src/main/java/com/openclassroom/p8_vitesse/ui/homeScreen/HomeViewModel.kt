@@ -24,6 +24,7 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
     private val _filter = MutableStateFlow("")
 
     private val _isFavoriteSelected = MutableStateFlow(false)
+    val isFavoriteSelected: StateFlow<Boolean> = _isFavoriteSelected
 
     /**
      * Flow transmettant la liste de candidat en fonction de l'onglet selectionner et du filtre appliqué
