@@ -46,6 +46,7 @@
                 android:paddingHorizontal="16dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:src="@drawable/ic_placeholder"
                 android:contentDescription="@string/profil_picture"/>
 
             <!-- Section nom et prénom -->
