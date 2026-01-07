@@ -20,9 +20,11 @@ import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentAddBinding
+import com.openclassroom.p8_vitesse.ui.utils.BirthdayFormatter
 import com.openclassroom.p8_vitesse.ui.utils.PhoneFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -117,8 +119,11 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         datePicker.show(childFragmentManager, "DATE_PICKER")
 
         datePicker.addOnPositiveButtonClickListener {
-            binding.ETBirthay.setText(datePicker.headerText)
-            datePicker.selection?.let { viewModel.setDateOfBirth(it) }
+            val longBirthday = datePicker.selection ?: return@addOnPositiveButtonClickListener
+            val birthday = Instant.ofEpochMilli(longBirthday).atZone(ZoneId.systemDefault())
+                .toLocalDate()
+            binding.ETBirthay.setText(BirthdayFormatter.format(birthday))
+            viewModel.setDateOfBirth(birthday)
         }
     }
 
@@ -139,7 +144,7 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             binding.ETEmail.setText(candidate.email)
             candidate.note?.let { note -> binding.ETNote.setText(note) }
             candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
-            if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(candidate.dateOfBirth.toString())
+            if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(BirthdayFormatter.format(candidate.dateOfBirth))
             Glide.with(binding.profilPicture.context)
                 .load(candidate.photo)
                 .placeholder(R.drawable.ic_placeholder)
