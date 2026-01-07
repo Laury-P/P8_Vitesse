@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentDetailBinding
+import com.openclassroom.p8_vitesse.ui.utils.BirthdayFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -78,14 +79,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
     }
 
-
     private fun birthdayFormatter(date: LocalDate): String {
-        val local = Locale.getDefault()
-        val pattern = when (local.language) {
-            Locale.FRENCH.language -> "dd/MM/yyyy"
-            else -> "MM/dd/yyyy"
-        }
-        val birthday = date.format(DateTimeFormatter.ofPattern(pattern))
+        val birthday =  BirthdayFormatter.format(date)
 
         val age = Period.between(date, LocalDate.now()).years
 

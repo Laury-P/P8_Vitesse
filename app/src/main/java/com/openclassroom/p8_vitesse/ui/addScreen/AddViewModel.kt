@@ -70,12 +70,11 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
         }
     }
 
-    fun setDateOfBirth(newBirthDate: Long) {
+    fun setDateOfBirth(newBirthDate: LocalDate) {
         _candidateState.update {
             it.copy(
                 candidate = it.candidate.copy(
-                    dateOfBirth = Instant.ofEpochMilli(newBirthDate).atZone(ZoneId.systemDefault())
-                        .toLocalDate()
+                    dateOfBirth = newBirthDate
                 )
             )
         }

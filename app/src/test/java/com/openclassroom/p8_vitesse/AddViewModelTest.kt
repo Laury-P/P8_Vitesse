@@ -83,7 +83,7 @@ class AddViewModelTest {
         viewModel.setFirstName("test")
         viewModel.setLastName("test")
         viewModel.setPhoneNumber("0123456")
-        viewModel.setDateOfBirth(946736967) // Correspond au 01/01/2000
+        viewModel.setDateOfBirth(LocalDate.of(2000,1,1)) // Correspond au 01/01/2000
         viewModel.setEmail("test")
         viewModel.saveCandidate()
         val state = viewModel.candidateState.value
@@ -98,7 +98,7 @@ class AddViewModelTest {
         viewModel.setFirstName("test")
         viewModel.setLastName("test")
         viewModel.setPhoneNumber("0123456")
-        viewModel.setDateOfBirth(946736967) // Correspond au 01/01/2000
+        viewModel.setDateOfBirth(LocalDate.of(2000,1,1)) // Correspond au 01/01/2000
         viewModel.setEmail("james.c.mcreynolds@example-pet-store.com")
         viewModel.saveCandidate()
         advanceUntilIdle()
