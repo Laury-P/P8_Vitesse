@@ -66,7 +66,7 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
 
     fun setExpectedSalary(newSalary: String) {
         _candidateState.update {
-            it.copy(candidate = it.candidate.copy(expectedSalary = newSalary.toDouble()))
+            it.copy(candidate = it.candidate.copy(expectedSalary = newSalary.toDoubleOrNull()))
         }
     }
 
