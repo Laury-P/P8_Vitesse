@@ -18,6 +18,15 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Tests unitaires du [CandidateRepository]
+ *
+ * Ces tests verifient:
+ * - la récupération du taux de change de l'Api Currencies et la gestion de l'erreur
+ *
+ * Les dépendances sont simulées via des Mocks.
+ * Les coroutines sont testées via les [StandardTestDispatcher]
+ */
 class CandidateRepositoryTest {
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var candidateDao: CandidateDao
@@ -42,7 +51,7 @@ class CandidateRepositoryTest {
     }
 
     @Test
-    fun `test getEurToPoundsRate() with correct rate`() = runTest {
+    fun `given l'api retourne un taux correct when getEurToPoundsRate then le taux est retourné`() = runTest {
         val fakeRate = 0.8
         coEvery { apiService.getEuroToPoundsRate() } returns EurToPoundsResponse(
             EurToPoundsResponse.EurRate(
@@ -56,7 +65,7 @@ class CandidateRepositoryTest {
     }
 
     @Test
-    fun `test getEurToPoundsRate() with error`() = runTest {
+    fun `given l'api retourne une erreur when getEurToPoundsRate then un taux nul est retourné`() = runTest {
         coEvery { apiService.getEuroToPoundsRate() } throws Exception("API Failed")
 
         val rate = repository.getEurToPoundsRate()

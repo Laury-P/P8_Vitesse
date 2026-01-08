@@ -22,7 +22,12 @@ import org.junit.Test
 import java.time.LocalDate
 
 /**
- * Unit test pour le ViewModel du fragment Detail.
+ * Tests unitaires du [DetailViewModel]
+ *
+ * Ces tests vérifient :
+ * - la récupération des informations du candidat par son identifiant
+ * - la mise a jours du statut de favoris
+ * - la suppression du candidat
  */
 class DetailViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
@@ -58,7 +63,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test getCandidateById()`() = runTest {
+    fun `given un id existant when getCandidateById then state est mis à jour avec les infos du candidat`() = runTest {
         coEvery { repository.getCandidateById(1) } returns fakeCandidate
         viewModel.getCandidateById(1)
 
@@ -67,7 +72,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test setFavoris from true to false`() = runTest {
+    fun `given isFavorite est true when setFavoris then state est mis à jour avec isFavorite = false`() = runTest {
         val candidate = fakeCandidate.copy(isFavorite = true)
         coEvery { repository.getCandidateById(any()) } returns candidate
         viewModel.getCandidateById(1)
@@ -77,7 +82,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test setFavoris from false to true`() = runTest {
+    fun `given isFavorite est false when setFavoris then state est mis à jour avec isFavorite = true`() = runTest {
         val candidate = fakeCandidate.copy(isFavorite = false)
         coEvery { repository.getCandidateById(any()) } returns candidate
         viewModel.getCandidateById(1)
@@ -87,7 +92,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `test deleteCandidate`() = runTest {
+    fun `when deleteCandidate then repository deleteCandidate est appelé`() = runTest {
         coEvery { repository.getCandidateById(any()) } returns fakeCandidate
         viewModel.getCandidateById(1)
         val state = viewModel.candidateFlow.value
