@@ -21,6 +21,9 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
     private val _candidateState = MutableStateFlow(CandidateState())
     val candidateState: StateFlow<CandidateState> = _candidateState
 
+    /**
+     * Récupération du candidat par son id
+     */
     suspend fun getCandidate(id: Long) {
         val candidate = repository.getCandidateById(id)
         _candidateState.update {
@@ -80,6 +83,9 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
         }
     }
 
+    /**
+     * Sauvegarde du candidat dans la base de données si il est validé par checkNecessaryFields()
+     */
     fun saveCandidate() {
         checkNecessaryFields()
         if (_candidateState.value.isCandidateCorrect) {
@@ -89,6 +95,9 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
         }
     }
 
+    /**
+     * Vérifie si les champs obligatoires sont remplis et si l'email est valide
+     */
     private fun checkNecessaryFields() {
         val emptyError = R.string.mandatoryField
         val emailInvalid = R.string.emailError
@@ -116,6 +125,11 @@ class AddViewModel @Inject constructor(private val repository: CandidateReposito
         }
     }
 
+    /**
+     * Vérifie si l'email est valide
+     *
+     * @param email L'email à tester
+     */
     private fun isEmailValid(email: String): Boolean {
         val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$".toRegex()
         return emailRegex.matches(email)

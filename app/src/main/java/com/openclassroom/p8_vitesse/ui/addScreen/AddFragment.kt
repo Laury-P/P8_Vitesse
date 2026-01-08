@@ -36,10 +36,11 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
     private val viewModel: AddViewModel by viewModels()
 
+    // Initialisation de pickMedia pour que l'utilisateur puissent choisir la photo a utiliser pour le candidat
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                setProfilPicture(uri)
+                setProfilePicture(uri)
             }
         }
 
@@ -57,15 +58,18 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         if (id != -1L) {
             setupEditMode(id)
         }
-        goBack()
+        setupBackNavigation()
         setupImagePicker()
         setupDatePicker()
-        setupFab()
-        setupCandidate()
+        setupSaveFab()
+        setupCandidateFormListener()
         setupCandidateStateCollector()
     }
 
-    private fun goBack() {
+    /**
+     * Mise en place du bouton de retour
+     */
+    private fun setupBackNavigation() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -82,8 +86,11 @@ class AddFragment : Fragment(R.layout.fragment_add) {
 
     /**
      * Mise à jour de la photo de profil
+     * Cette fonction est appelée après la récupération de l'Uri de la photo depuis le pickMedia
+     *
+     * @param uri L'Uri local de la photo
      */
-    private fun setProfilPicture(uri: Uri) {
+    private fun setProfilePicture(uri: Uri) {
         viewModel.setPhoto(uri.toString())
         Glide.with(binding.profilPicture.context)
             .load(uri)
@@ -91,12 +98,19 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             .into(binding.profilPicture)
     }
 
+    /**
+     * Mise en place du datePicker pour la date de naissance
+     */
     private fun setupDatePicker() {
         binding.ETBirthay.setOnClickListener {
             openDatePicker()
         }
     }
 
+    /**
+     * Lancement du date picker pour la date de naissance
+     *
+     */
     private fun openDatePicker() {
         val constraints = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointBackward.now()) //empêche l'utilisateur de saisir des dates future
@@ -127,12 +141,26 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         }
     }
 
-    private fun setupFab() {
+    /**
+     * Mise en place du bouton de sauvegarde
+     */
+    private fun setupSaveFab() {
         binding.fabSave.setOnClickListener {
             viewModel.saveCandidate()
         }
     }
 
+    /**
+     * Configure l'écran en mode édition pour un candidat existant
+     *
+     * Récupère les informations du candidat depuis la base de données via le ViewModel
+     * et pré-remplit les champs de saisie.
+     * Met également à jour le titre de la toolbar.
+     *
+     * Cette fonction est appelé lorsqu'un id est reçu en intent.
+     *
+     * @param id L'id du candidat
+     */
     private fun setupEditMode(id: Long) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCandidate(id)
@@ -144,7 +172,9 @@ class AddFragment : Fragment(R.layout.fragment_add) {
             binding.ETEmail.setText(candidate.email)
             candidate.note?.let { note -> binding.ETNote.setText(note) }
             candidate.expectedSalary?.let { salary -> binding.ETSalary.setText(salary.toString()) }
-            if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(BirthdayFormatter.format(candidate.dateOfBirth))
+            if (candidate.dateOfBirth != LocalDate.now()) binding.ETBirthay.setText(
+                BirthdayFormatter.format(candidate.dateOfBirth)
+            )
             Glide.with(binding.profilPicture.context)
                 .load(candidate.photo)
                 .placeholder(R.drawable.ic_placeholder)
@@ -154,7 +184,10 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         }
     }
 
-    private fun setupCandidate() {
+    /**
+     * Mise en place des listeners pour les champs de saisie
+     */
+    private fun setupCandidateFormListener() {
         binding.ETFirstname.addTextChangedListener {
             viewModel.setFirstName(it.toString())
         }
@@ -190,6 +223,9 @@ class AddFragment : Fragment(R.layout.fragment_add) {
         }
     }
 
+    /**
+     * Mise en place du collector du state du candidat qui gère l'affichage des erreurs.
+     */
     private fun setupCandidateStateCollector() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.candidateState.collect {
