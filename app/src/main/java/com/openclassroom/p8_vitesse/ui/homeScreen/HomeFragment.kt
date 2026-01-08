@@ -15,8 +15,6 @@ import com.google.android.material.tabs.TabLayout
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 
@@ -47,7 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView() // Mise en place du recycler view qui affiche la liste de candidat
-        setupFab() // Mise en place du bouton pour ajouter un candidat
+        setupAddFab() // Mise en place du bouton pour ajouter un candidat
         setupSearchWidget()// Mise en place du widget de recherche/filtrage de candidat par nom ou prénom
         observeSelectedTabs()// Mise en place des onglets pour afficher les candidats favoris ou non
         setupTabsListener()
@@ -68,7 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     /**
      * Mise en place du bouton pour ajouter un candidat et navigation vers le fragment d'ajout
      */
-    private fun setupFab() {
+    private fun setupAddFab() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_add)
         }
@@ -100,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         })
 
-        searchView.setOnCloseListener() {
+        searchView.setOnCloseListener {
             searchView.visibility = View.INVISIBLE
             searchBar.visibility = View.VISIBLE
             false
@@ -108,8 +106,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     /**
-     * Lancement de l'observateur des listes de candidats venant de la BDD
-     * Gère l'affichage du chargement, l'affichage indiquant une liste vide et affiche la mise à jours de la liste des candidats
+     * Observe le flux de candidats provenant de la BDD via le ViewModel
+     *
+     * Cette fonction:
+     * - Gère l'affichage en fonction de l'état du flux : le chargement, une liste vide,
+     * une liste non vide transmisse à l'adapter du RecyclerView ou une erreur via un Toast
      */
     private fun observeCandidate() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -133,7 +134,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-
     /**
      * Mise en place du listener pour la selection des onglets All et Favorite
      */
@@ -154,7 +154,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     /**
      * Mise en place des onglets pour afficher les candidats favoris ou non
-     * S'assure qu'au repositionnement de l'écran ou retour depuis un autre écran, le bon onglet est sélectionné
+     *
+     * S'assure qu'au repositionnement de l'écran ou retour depuis un autre écran, le bon onglet est
+     * toujours sélectionné
      */
     private fun observeSelectedTabs() {
         viewLifecycleOwner.lifecycleScope.launch {

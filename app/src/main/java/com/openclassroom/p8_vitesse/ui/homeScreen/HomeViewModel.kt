@@ -1,7 +1,6 @@
 package com.openclassroom.p8_vitesse.ui.homeScreen
 
 import android.util.Log
-import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassroom.p8_vitesse.R
@@ -19,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: CandidateRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(repository: CandidateRepository) : ViewModel() {
 
     private val _filter = MutableStateFlow("")
 
@@ -27,9 +26,9 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
     val isFavoriteSelected: StateFlow<Boolean> = _isFavoriteSelected
 
     /**
-     * Flow transmettant la liste de candidat en fonction de l'onglet selectionner et du filtre appliqué
+     * Flow transmettant la liste de candidat en fonction de l'onglet selectionné et du filtre appliqué
      */
-    val candidateFlow : StateFlow<CandidateResult> = combine(
+    val candidateFlow: StateFlow<CandidateResult> = combine(
         repository.getAllCandidates(),
         repository.getFavoriteCandidates(),
         _filter,
@@ -51,10 +50,10 @@ class HomeViewModel @Inject constructor(private val repository: CandidateReposit
     }.onStart {
         emit(CandidateResult.Loading)
     }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = CandidateResult.Loading
-        )
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = CandidateResult.Loading
+    )
 
     /**
      * Mise à jour du filtre de recherche

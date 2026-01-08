@@ -15,9 +15,7 @@ import com.openclassroom.p8_vitesse.ui.homeScreen.CandidateAdapter.CandidateView
 import com.openclassroom.p8_vitesse.R
 import com.openclassroom.p8_vitesse.domain.Candidate
 
-/**
- * Adapteur de la liste des candidats
- */
+
 class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(CandidateDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CandidateViewHolder {
@@ -38,7 +36,8 @@ class CandidateAdapter() : ListAdapter<Candidate, CandidateViewHolder>(Candidate
         holder.note.text = candidate.note
 
         /**
-         * Navigation vers le fragment de détail d'un candidat
+         * Mise en place du listener pour permettre la navigation vers le fragment de détail d'un candidat
+         * avec l'id du candidat en argument
          */
         holder.itemView.setOnClickListener {
             val id = candidate.id ?: return@setOnClickListener
