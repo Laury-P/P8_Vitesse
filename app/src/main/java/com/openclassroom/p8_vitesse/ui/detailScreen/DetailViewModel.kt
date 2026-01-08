@@ -1,7 +1,5 @@
 package com.openclassroom.p8_vitesse.ui.detailScreen
 
-
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassroom.p8_vitesse.data.repository.CandidateRepository
@@ -20,22 +18,34 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
     private val _candidateFlow = MutableStateFlow(CandidateDetail())
     val candidateFlow: StateFlow<CandidateDetail> = _candidateFlow
 
-     suspend fun getRate() : Double {
+    /**
+     * Récupération du taux de conversion euro → livre depuis le repository
+     *
+     * @return Double correspendant au Taux de conversion euro → livre
+     */
+    suspend fun getRate(): Double {
         return repository.getEurToPoundsRate()
     }
 
-
+    /**
+     * Récupération du candidat par son id
+     *
+     * @param id L'id du candidat
+     */
     suspend fun getCandidateById(id: Long) {
         val candidate = repository.getCandidateById(id)
         candidate.id?.let {
             _candidateFlow.update {
                 it.copy(
                     candidate = candidate
-                    )
+                )
             }
         }
     }
 
+    /**
+     * Mise à jour du statut favorite du candidat dans la BDD et dans le candidateFlow
+     */
     fun setFavorite() {
         val newFavoriteValue = !candidateFlow.value.candidate.isFavorite
         _candidateFlow.update {
@@ -47,6 +57,9 @@ class DetailViewModel @Inject constructor(private val repository: CandidateRepos
         }
     }
 
+    /**
+     * Suppression du candidat de la BDD
+     */
     fun deleteCandidate() {
         viewModelScope.launch {
             repository.deleteCandidate(candidateFlow.value.candidate)

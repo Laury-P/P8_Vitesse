@@ -19,9 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
-import java.time.format.DateTimeFormatter
-import java.util.Locale
-import kotlin.time.times
 
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -44,12 +41,17 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
         val id = arguments?.getLong("candidateId")
         if (id != null) setupCandidate(id)
-        else findNavController().popBackStack() // If any error occur during intent or id is lost or invalid
+        else findNavController().popBackStack() // Si une erreur survient on retourne à l'écran d'accueil
         setupBackNavigation()
         setupMenu()
         setupContactMenu()
     }
 
+    /**
+     * Récupération des infos candidat et affichage dans la vue
+     *
+     * @param id L'id du candidat
+     */
     private fun setupCandidate(id: Long) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCandidateById(id)
@@ -64,11 +66,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     .error(R.drawable.ic_placeholder)
                     .centerCrop()
                     .into(binding.profilPicture)
-                binding.TVBirthday.text = birthdayFormatter(candidate.dateOfBirth)
+                binding.TVBirthday.text = formatBirthdayDisplayString(candidate.dateOfBirth)
                 candidate.expectedSalary?.let { salary ->
                     val formattedSalary = String.format("%.2f", salary)
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, formattedSalary)
-                    binding.TVSalaryPounds.text = salaryConverter(salary, viewModel.getRate())
+                    binding.TVSalaryPounds.text = formatSalaryiInPounds(salary, viewModel.getRate())
                 } ?: run {
                     binding.TVSalaryEuros.text = getString(R.string.salary_euros, "-")
                     binding.TVSalaryPounds.text = getString(R.string.salary_pounds, "-")
@@ -79,29 +81,66 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun birthdayFormatter(date: LocalDate): String {
-        val birthday =  BirthdayFormatter.format(date)
+    /**
+     *  Formate la date d'anniversaire d'un candidat et renvoie une chaîne prête à l'affichage
+     *  incluant à la fois la date formatée selon la locale et l'âge calculé.
+     *
+     *  Cette fonction :
+     *   - utilise `BirthdayFormatter.format(date)` pour obtenir la date au format local
+     *   - calcule l'âge en années à partir de la date passée
+     *   - retourne une chaîne combinant la date et l'âge, formatée via `R.string.age_format`
+     *
+     *   Exemple de résultat : "12/08/1990 (32 ans)" selon la locale.
+     *
+     *   @param date La date de naissance du candidat
+     *   @return Une chaîne formatée affichant la date et l'âge du candidat
+     */
+    private fun formatBirthdayDisplayString(date: LocalDate): String {
+        val birthday = BirthdayFormatter.format(date)
 
         val age = Period.between(date, LocalDate.now()).years
 
         return getString(R.string.age_format, birthday, age)
     }
 
-    private fun salaryConverter(euros: Double, rate: Double): String {
+    /**
+     * Convertit le salaire attendu en livre sterling et retourne une chaîne prête à affiché
+     *
+     * Cette fonction :
+     *   - multiplie le salaire par le taux de conversion fourni si le taux est différent de zéro
+     *   - sinon retourne "-" pour indiqué une erreur de recupération du taux
+     *   - format l'affichage avec 2 chiffres après la virgule
+     *   - utilise `R.string.salary_pounds` pour préparer la chaîne d'affichage
+     *
+     *   @param euros Salaire en euros à convertir
+     *   @param rate Taux de conversion euro → livre
+     *   @return Chaîne affichable représentant le salaire en livres
+     */
+    private fun formatSalaryiInPounds(euros: Double, rate: Double): String {
         return if (rate != 0.0) {
             val pounds = euros * rate
             val formattedSalary = String.format("%.2f", pounds)
             getString(R.string.salary_pounds, formattedSalary)
         } else getString(R.string.salary_pounds, "-")
-
     }
 
+    /**
+     * Mise en place du bouton de retour
+     */
     private fun setupBackNavigation() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
 
+    /**
+     * Mise en place du menu
+     *
+     * Cette fonction:
+     * - met en place les listeners pour les boutons du menu.
+     * - affiche un dialog pour confirmer la suppression du candidat avant de l'effectuer si confirmé
+     * - met en place la navigation vers l'écran d'édition du candidat avec l'id du candidat en argument
+     */
     private fun setupMenu() {
         val menuFav = binding.toolbar.menu.findItem(R.id.menuFavorite)
         val menuEdit = binding.toolbar.menu.findItem(R.id.menuEdit)
@@ -132,6 +171,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
     }
 
+    /**
+     * Mise en place du menu de contact
+     *
+     * Cette fonction récupère le numéros de telephone et l'adresse mail du candidat et met en place
+     * les boutons pour appeler, envoyer un sms ou envoyer un mail au candidat.
+     */
     private fun setupContactMenu() {
         binding.callButton.setOnClickListener {
             val number = viewModel.candidateFlow.value.candidate.phoneNumber
