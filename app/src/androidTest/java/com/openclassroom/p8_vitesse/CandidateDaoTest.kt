@@ -3,10 +3,11 @@ package com.openclassroom.p8_vitesse
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.openclassroom.p8_vitesse.data.VitesseDatabase
-import com.openclassroom.p8_vitesse.data.dao.CandidateDao
+import com.openclassroom.p8_vitesse.data.local.VitesseDatabase
+import com.openclassroom.p8_vitesse.data.local.dao.CandidateDao
 import com.openclassroom.p8_vitesse.data.mapper.toDto
 import com.openclassroom.p8_vitesse.domain.Candidate
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -15,10 +16,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.LocalDate
 
+/**
+ * Tests d'intégration instrumentalisé du [CandidateDao].
+ *
+ * Ces tests vérifient le comportement réel de la base de données Room
+ * (insertions, mise à jour, suppression et requêtes), en utilisant une base de mémoire.
+ *
+ */
 @RunWith(AndroidJUnit4::class)
 class CandidateDaoTest {
     private lateinit var database: VitesseDatabase
-    private lateinit var candidateDao : CandidateDao
+    private lateinit var candidateDao: CandidateDao
 
     @Before
     fun createDb() {
@@ -33,13 +41,13 @@ class CandidateDaoTest {
     }
 
     @After
-    fun closeDb(){
+    fun closeDb() {
         database.close()
     }
 
 
     @Test
-    fun insertCandidateWithOnlyRequiredFields() = runBlocking {
+    fun upsert_WhenNewCandidateWithOnlyRequiredFields_ThenCandidateIsInserted() = runBlocking {
         val candidate = Candidate(
             firstName = "John",
             lastName = "Doe",
@@ -51,15 +59,15 @@ class CandidateDaoTest {
         candidateDao.upsertCandidate(candidate.toDto())
 
 
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         val expected = candidate.toDto().copy(id = 1)
 
-        assertEquals(expected,insertedCandidate[0])
+        assertEquals(expected, insertedCandidate[0])
 
     }
 
     @Test
-    fun insertCandidateWithOptionalFields() = runBlocking {
+    fun upsert_WhenNewCandidateWithAllFields_ThenCandidateIsInserted() = runBlocking {
         val candidate = Candidate(
             firstName = "John",
             lastName = "Doe",
@@ -74,14 +82,14 @@ class CandidateDaoTest {
         candidateDao.upsertCandidate(candidate.toDto())
 
 
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         val expected = candidate.toDto().copy(id = 1)
 
-        assertEquals(expected,insertedCandidate[0])
+        assertEquals(expected, insertedCandidate[0])
     }
 
     @Test
-    fun updateCandidate() = runBlocking {
+    fun upsert_WhenCandidateExists_ThenCandidateIsUpdated() = runBlocking {
         val candidate = Candidate(
             firstName = "John",
             lastName = "Doe",
@@ -99,15 +107,15 @@ class CandidateDaoTest {
         )
         candidateDao.upsertCandidate(updatedCandidate.toDto())
 
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         val expected = updatedCandidate.toDto()
 
-        assertEquals(expected,insertedCandidate[0])
+        assertEquals(expected, insertedCandidate[0])
         assert(insertedCandidate.size == 1)
     }
 
     @Test
-    fun deleteCandidate() = runBlocking {
+    fun delete_WhenCandidateExists_ThenCandidateIsDeleted() = runBlocking {
         val candidate = Candidate(
             id = 1,
             firstName = "John",
@@ -117,49 +125,50 @@ class CandidateDaoTest {
             dateOfBirth = LocalDate.of(1990, 1, 1)
         )
         candidateDao.upsertCandidate(candidate.toDto())
-        val insertedCandidate = candidateDao.getAllCandidates()
+        val insertedCandidate = candidateDao.getAllCandidates().first()
         assert(1 == insertedCandidate.size)
 
         candidateDao.deleteCandidate(candidate.toDto())
-        val deletedCandidate = candidateDao.getAllCandidates()
+        val deletedCandidate = candidateDao.getAllCandidates().first()
         assert(deletedCandidate.isEmpty())
     }
 
     @Test
-    fun getAllCandidates_Alphabetically() = runBlocking {
-        val candidate1 = Candidate(
-            firstName = "Jane",
-            lastName = "Smith",
-            phoneNumber = "321654",
-            email = "jane.smith@exemple.com",
-            dateOfBirth = LocalDate.of(1995,5,5)
-        )
+    fun getAllCandidates_WhenCandidatesExist_ThenCandidatesAreReturnedAlphabetically() =
+        runBlocking {
+            val candidate1 = Candidate(
+                firstName = "Jane",
+                lastName = "Smith",
+                phoneNumber = "321654",
+                email = "jane.smith@exemple.com",
+                dateOfBirth = LocalDate.of(1995, 5, 5)
+            )
 
-        val candidate2 = Candidate(
-            firstName = "John",
-            lastName = "Doe",
-            phoneNumber = "1234567890",
-            email = "john.doe@exemple.com",
-            dateOfBirth = LocalDate.of(1990, 1, 1)
-        )
+            val candidate2 = Candidate(
+                firstName = "John",
+                lastName = "Doe",
+                phoneNumber = "1234567890",
+                email = "john.doe@exemple.com",
+                dateOfBirth = LocalDate.of(1990, 1, 1)
+            )
 
-        candidateDao.upsertCandidate(candidate1.toDto())
-        candidateDao.upsertCandidate(candidate2.toDto())
+            candidateDao.upsertCandidate(candidate1.toDto())
+            candidateDao.upsertCandidate(candidate2.toDto())
 
-        val insertedCandidates = candidateDao.getAllCandidates()
-        assert(insertedCandidates.size == 2)
-        assert("Smith" == insertedCandidates[1].lastName)
-        assert("Doe" == insertedCandidates[0].lastName)
-    }
+            val insertedCandidates = candidateDao.getAllCandidates().first()
+            assert(insertedCandidates.size == 2)
+            assert("Smith" == insertedCandidates[1].lastName)
+            assert("Doe" == insertedCandidates[0].lastName)
+        }
 
     @Test
-    fun getCandidateById() = runBlocking {
+    fun getById_WhenCandidateExists_ThenCorrectCandidateIsReturned() = runBlocking {
         val candidate1 = Candidate(
             firstName = "Jane",
             lastName = "Smith",
             phoneNumber = "321654",
             email = "jane.smith@exemple.com",
-            dateOfBirth = LocalDate.of(1995,5,5)
+            dateOfBirth = LocalDate.of(1995, 5, 5)
         )
 
         val candidate2 = Candidate(
@@ -181,28 +190,35 @@ class CandidateDaoTest {
     }
 
     @Test
-    fun getFavoriteCandidates() = runBlocking {
-        val candidate1 = Candidate(
-            firstName = "Jane",
-            lastName = "Smith",
-            phoneNumber = "321654",
-            email = "jane.smith@exemple.com",
-            isFavorite = true,
-            dateOfBirth = LocalDate.of(1995,5,5)
-        )
+    fun getFavoriteCandidates_WhenCandidatesExist_ThenOnlyFavoriteCandidatesAreReturned() =
+        runBlocking {
+            val candidate1 = Candidate(
+                firstName = "Jane",
+                lastName = "Smith",
+                phoneNumber = "321654",
+                email = "jane.smith@exemple.com",
+                isFavorite = true,
+                dateOfBirth = LocalDate.of(1995, 5, 5)
+            )
 
-        val candidate2 = Candidate(
-            firstName = "John",
-            lastName = "Doe",
-            phoneNumber = "1234567890",
-            email = "john.doe@exemple.com",
-            dateOfBirth = LocalDate.of(1990, 1, 1)
-        )
-        candidateDao.upsertCandidate(candidate1.toDto())
-        candidateDao.upsertCandidate(candidate2.toDto())
+            val candidate2 = Candidate(
+                firstName = "John",
+                lastName = "Doe",
+                phoneNumber = "1234567890",
+                email = "john.doe@exemple.com",
+                dateOfBirth = LocalDate.of(1990, 1, 1)
+            )
+            candidateDao.upsertCandidate(candidate1.toDto())
+            candidateDao.upsertCandidate(candidate2.toDto())
 
-        val favoriteCandidate = candidateDao.getFavoriteCandidates()
-        assert("Smith" == favoriteCandidate.lastName)
+            val favoriteCandidate = candidateDao.getFavoriteCandidates().first()
+            assert("Smith" == favoriteCandidate[0].lastName)
+        }
+
+    @Test
+    fun getAllCandidates_WhenNoCandidatesExist_ThenEmptyListIsReturned() = runBlocking {
+        val emptyList = candidateDao.getAllCandidates().first()
+        assert(emptyList == emptyList<Candidate>())
     }
 
 }

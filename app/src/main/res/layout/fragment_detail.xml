@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detailScreen.DetailFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:clickable="true"
+            android:focusable="true"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            android:background="@color/appBar_surface"
+            app:menu="@menu/detail_bar_menu"
+
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:divider="@drawable/horizontal_divider"
+            android:showDividers="middle"
+            >
+
+            <ImageView
+                android:id="@+id/profil_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="195dp"
+                />
+
+            <!-- Section contact -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:weightSum="7">
+
+                <!-- Bouton Appel -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/callButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_phone"
+                        android:background="@drawable/contact_button"
+                        android:padding="8dp"
+                        android:layout_margin="4dp"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:contentDescription="@string/label_phoneCall"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_phoneCall"
+                        />
+                </LinearLayout>
+
+                <!-- Bouton Message -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/smsButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_sms"
+                        android:background="@drawable/contact_button"
+                        android:padding="8dp"
+                        android:layout_margin="4dp"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:contentDescription="@string/label_sms"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_sms"
+                        />
+                </LinearLayout>
+
+                <!-- Bouton email -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/emailButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_email"
+                        android:background="@drawable/contact_button"
+                        android:padding="8dp"
+                        android:layout_margin="4dp"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:contentDescription="@string/label_email"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_email"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Section Age -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_card_round_corner"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/birthday_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:paddingBottom="40dp" />
+                <TextView
+                    android:id="@+id/TV_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/birthday_label"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"/>
+            </LinearLayout>
+
+            <!-- Section Salary -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_card_round_corner"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint_salary"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:paddingBottom="40dp"
+                    />
+                <TextView
+                    android:id="@+id/TV_salary_euros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:paddingBottom="32dp"
+                    />
+                <TextView
+                    android:id="@+id/TV_salary_pounds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+            </LinearLayout>
+
+            <!-- Section Note -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/detail_card_round_corner"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="24dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint_note"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:paddingBottom="40dp"
+                    />
+                <TextView
+                    android:id="@+id/TV_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
